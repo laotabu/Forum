@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>首页</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/all_style.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/index_style.css">
+
+    <script src="assets/js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/js/jq_ui.min.js"></script>
+	<!-- 模板引擎 -->
+	<script type="text/javascript" src="assets/js/template-web.js"></script>
+</head>
+<body>
+	<!-- 顶边栏 -->
+	<div id="top">
+		<div class="top_content type_area">
+			<div class="top_left float_left">欢迎~~~</div>
+			<div class="top_right float_right"><span id="username">lin</span><a href="index.php?back=1">退出</a></div>
+		</div>
+	</div>
+	<!-- 头部模块 -->
+	<div id="header" class="type_area">
+			<div class="row">
+			  <div class="col-lg-8 col-sm-8 col-xs-6">
+				<div class="input-group">
+				 <img src="assets/img/logo.png" alt="logo">
+				</div>
+			  </div>
+			  <div class="col-lg-4 col-sm-4 col-xs-6">
+				<form action="Forum_2.php" method="get">
+				<div class="input-group" style="padding-top: 20px;">
+					<input type="text" class="form-control" placeholder="帖子标题搜索..." name="text">
+					<input type="hidden" name="type" value="5">
+					<span class="input-group-btn">
+					 	<button class="btn btn-default" type="submit">查询</button>
+					</span>
+				</div>
+				</form>
+			  </div>
+			</div>
+	</div>
+	<!-- 导航栏 -->
+	<div id="nav" class="type_area">
+		<ul class="nav_item">
+			<li onclick="location.href='index.html'" style="background:#2d004e;">首页</li>
+			<li onclick="location.href='Forum_2.php'">贴吧模式</li>
+			<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>
+			<li onclick="location.href='Forum_post.php'">发帖</li>
+			<li onclick="location.href='Forum_store.php'">商城</li>
+			<li onclick="location.href='Forum_user.php'">个人中心</li>
+			<li class="nav_itemEnd">快捷导航</li>
+		</ul>
+		<ul class="user_item">
+			<li onclick="location.href='Forum_user.php'"><img src="assets/img/head.png" ></li>
+			<li class="username" onclick="location.href='Forum_user.php'">Lin</li>
+			<li><a href="Forum_2.php?type=4">我的帖子</a></li>
+			<li><a href="Forum_user.php">个人资料</a></li>
+			<li><a href="Forum_post.php">发帖</a></li>
+		</ul>
+		<!-- 公告 -->
+		<div class="notice">
+			<span class="notice_p">公告：暂无</span>
+		</div>
+	</div>
+	<!-- banner模块 -->
+	<div id="banner" class="type_area">
+		<div class="banner_top">
+			<ul>
+				<li onclick="location.href='Forum_2.php?type=4'">我的帖子</li>
+				<li onclick="location.href='Forum_2.php?type=2'">查看新帖</li>
+			</ul>
+		</div>
+		<div class="banner_bottom">
+			<div class="banner_left">
+				<ul class="text">
+					<li>1111</li>
+					<li>2222</li>
+					<li>3333</li>
+				</ul>
+				<ul class="ul1">
+					<li id="li"><img src="assets/img/banner_1.png" alt=""></li>
+					<li><img src="assets/img/banner_2.png" alt=""></li>
+					<li><img src="assets/img/banner_3.png" alt=""></li>
+				</ul>
+				<ul class="ul2">
+					<li><a href="javascript:void(0)" onclick="go(0)"></a></li>
+					<li><a href="javascript:void(0)" onclick="go(1)"></a></li>
+					<li><a href="javascript:void(0)" onclick="go(2)"></a></li>
+				</ul>
+			</div>
+			<div class="banner_right" id="tabs">
+				<div class="banner_right_title">
+					<ul class="title_item">
+						<li id="newPost" style="background: #636267;"><a href="#new_table">最新帖子</a></li>
+						<li id="hotPost"><a href="#hot_table">热门贴子</a></li>
+					</ul>
+				</div>
+				<div class="recommend_item">
+					<!-- 最新贴列表 -->
+					<table id="new_table">
+						<script  type="text/html" id="new_table_template">
+							{{each comments}}
+							<tr onclick="location.href='Forum_2_1.php?id={{$value.id}}'">
+								<td><span>[ 新帖 ]</span></td>
+								<td><p>{{$value.post_title}}</p></td>
+								<td><span>{{$value.post_user_name}}</span></td>
+							</tr>
+							{{/each}}
+						</script>
+					</table>
+					<!-- 热门贴列表 -->
+					<table id="hot_table">
+						<script  type="text/html" id="hot_table_template">
+							{{each comments}}
+							<tr onclick="location.href='Forum_2_1.php?id={{$value.id}}'">
+								<td><span>[ 热门 ]</span></td>
+								<td><p>{{$value.post_title}}</p></td>
+								<td><span>{{$value.post_user_name}}</span></td>
+							</tr>
+							{{/each}}
+						</script>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 内容模块 -->
+	<div id="content" class="type_area">
+		<div class="content_template">
+			<div class="content_header">
+				专题区
+				<span class="glyphicon glyphicon-zoom-in" data-toggle="modal"  data-target=".bs-example-modal-sm" aria-hidden="true"></span>
+			</div>
+			<div class="content_body content_body1">
+				<!-- 1.模板 -->
+				<script type="text/html" id="content_body_1">
+				{{each comments}}
+				{{if $value.module_type==1}}
+					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=1&module_id='+{{$value.id}}">
+						<div class="img" >
+							<img src="assets/img/module_1.png" alt="图片">
+						</div>
+						<div class="classify_right">
+							<p>{{$value.module_name}}</p>
+							<span>帖子:{{$value.post_sum}}</span>
+							<p title={{$value.module_explain}}>{{$value.module_explain}}</p><!-- 对说明文本宽度限制 鼠标移到文本上会有全部的说明提示 -->
+						</div>
+					</div>
+				{{/if}}
+				{{/each}}
+				</script>
+			</div>
+		</div>
+		<div class="content_template">
+			<div class="content_header">
+				学习区
+				<span class="glyphicon glyphicon-zoom-in" data-toggle="modal" data-target=".bs-example-modal-sm" aria-hidden="true"></span>
+				
+			</div>
+			<div class="content_body content_body2">
+				<!-- 1.模板 -->
+				<script type="text/html" id="content_body_2">
+				{{each comments}}
+				{{if $value.module_type==2}}
+					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=2&module_id='+{{$value.id}}">
+						<div class="img" >
+							<img src="assets/img/module_2.png" alt="图片">
+						</div>
+						<div class="classify_right">
+							<p>{{$value.module_name}}</p>
+							<span>帖子:{{$value.post_sum}}</span>
+							<p title={{$value.module_explain}}>{{$value.module_explain}}</p><!-- 对说明文本宽度限制 鼠标移到文本上会有全部的说明提示 -->
+						</div>
+					</div>
+				{{/if}}
+				{{/each}}
+				</script>
+			</div>
+		</div>
+		<div class="content_template">
+			<div class="content_header">
+				服务区
+				<span class="glyphicon glyphicon-zoom-in" data-toggle="modal" data-target=".bs-example-modal-sm"  aria-hidden="true"></span>
+			</div>
+			<div class="content_body content_body3">
+				<!-- 1.模板 -->
+				<script type="text/html" id="content_body_3">
+				{{each comments}}
+				{{if $value.module_type==3}}
+					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=3&module_id='+{{$value.id}}">
+						<div class="img" >
+							<img src="assets/img/module_3.png" alt="图片">
+						</div>
+						<div class="classify_right">
+							<p>{{$value.module_name}}</p>
+							<span>帖子:{{$value.post_sum}}</span>
+							<p title={{$value.module_explain}}>{{$value.module_explain}}</p><!-- 对说明文本宽度限制 鼠标移到文本上会有全部的说明提示 -->
+						</div>
+					</div>
+				{{/if}}
+				{{/each}}
+				</script>
+			</div>
+		</div>
+	</div>
+	<!-- 底部模块 -->
+	<div id="footer" class="type_area">
+		<div class="footer_statistics">
+			在线人数 - 统计 4 人在线
+		</div>
+		<div class="foot_text">
+			<p>&copy;2019 林桂鑫 林泽文 .AllRightsReserved</p>
+		</div>
+	</div>
+	
+	
+	<!-- Small modal 1-->
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog modal-sm" role="document">
+		<div class="modal-content" style="padding-top:10px">
+			尚未开放...
+		</div>
+	  </div>
+	
+	<!-- JavaScript -->
+	<script>
+		$(function(){
+			$(".text li").eq(0).attr("style","display:block");
+			$(".text li").eq(1).attr("style","display:none");
+			$(".text li").eq(2).attr("style","display:none");
+			/* 轮播图定时器 */
+			goMove=window.setInterval("move()",3000);
+			/* banner 新闻 new&hot 切换 */
+			$("#newPost").click(function(){
+				$(".title_item li").css("background","");
+				$("#newPost").css("background","#636267");
+				$.ajax({
+					url:"index.php",
+					type:"POST",
+					data:{data:'allPost'},
+					success: function(msg){
+				    	var data=JSON.parse(msg);
+						console.log(data);
+						/* 2.准备模板所需要数据 */
+						var context={comments:data};
+						/* 3.渲染数据 */
+						var html=template('new_table_template',context);
+						document.querySelector('#new_table').innerHTML=html;
+				    },
+				    error:function(e){
+				    	alert("前后端交互失败！"); 
+				    }
+				})
+			});
+			$("#hotPost").click(function(){
+				$(".title_item li").css("background","");
+				$("#hotPost").css("background","#636267");
+				$.ajax({
+					url:"index.php",
+					type:"POST",
+					data:{data:'hotPost'},
+					success: function(msg){
+				    	var data=JSON.parse(msg);
+						console.log(data);
+						/* 2.准备模板所需要数据 */
+						var context={comments:data};
+						/* 3.渲染数据 */
+						var html=template('hot_table_template',context);
+						document.querySelector('#hot_table').innerHTML=html;
+				    },
+				    error:function(e){
+				    	alert("前后端交互失败！"); 
+				    }
+				})
+			});
+			/* banner新闻列表 */
+	
+			/* banner new&hot切换按钮 */
+			$( "#tabs" ).tabs();
+			/* content模块 */
+			$.ajax({
+				url:"index.php",
+				type:"POST",
+				data:{data:'allModule'},
+				success: function(msg){
+			    	var data=JSON.parse(msg);
+					console.log(data);
+					/* 2.准备模板所需要数据 */
+					var context={comments:data};
+					/* 3.渲染数据 */
+					var html=template('content_body_1',context);
+					document.querySelector('.content_body1').innerHTML=html;
+					var html=template('content_body_2',context);
+					document.querySelector('.content_body2').innerHTML=html;
+					var html=template('content_body_3',context);
+					document.querySelector('.content_body3').innerHTML=html;
+			    },
+			    error:function(e){
+			    	alert("前后端交互失败！"); 
+			    }
+			})
+			/* 用户名 */
+			$.ajax({
+				url:"index.php",
+				type:"POST",
+				data:{data:'user'},
+				success: function(msg){
+					if(msg==1){
+						window.location.href="login.html";
+					}else{
+						var data=JSON.parse(msg);
+						$("#username").text(data['username']);
+						$(".user_item li img").attr('src',data['user_image']);
+						$(".user_item .username").text(data['username']);
+						
+					}
+			    },
+			    error:function(e){
+			    	alert("前后端交互失败！"); 
+			    }
+			})
+			/* 公告 */
+			$.ajax({
+				url:"index.php",
+				type:"POST",
+				data:{data:'notice'},
+				success: function(msg){
+					var data=JSON.parse(msg);
+					$(".notice_p").text("公告："+data['notice']);
+			    },
+			    error:function(e){
+			    	alert("前后端交互失败！"); 
+			    }
+			})
+			/* banner 轮播图 */
+			$.ajax({
+				url:"index.php",
+				type:"POST",
+				data:{data:'hotPost'},
+				success: function(msg){
+			    	var data=JSON.parse(msg);
+					for(var i=0;i<=2;i++){
+						$(".banner_left .ul1 li img").eq(i).attr("src",data[i]['post_cover_image']);
+						$(".banner_left .text li").eq(i).text(data[i]['post_title']);
+					}
+					//点击轮播图跳转页面
+					$(".banner_left .ul1 li img").eq(0).click(function(){
+						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[0]['id'];
+					});
+					$(".banner_left .ul1 li img").eq(1).click(function(){
+						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[1]['id'];
+					});
+					$(".banner_left .ul1 li img").eq(2).click(function(){
+						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[2]['id'];
+					});
+			    },
+			    error:function(e){
+			    	alert("前后端交互失败！"); 
+			    }
+			})
+		})
+		//轮播图 事件
+		function move(){
+			//text轮播
+			for(var i=0;i<=2;i++){
+				if($(".text li").eq(i).attr("style")=='display:block'){
+					break;
+				}
+			}
+			$(".text li").attr("style","display:none");
+			if(i==2){
+				$(".text li").eq(0).attr("style",'display:block');
+			}else{
+				$(".text li").eq(i+1).attr("style",'display:block');
+			}
+			
+			
+			var ul1=document.getElementsByClassName("ul1")[0];
+			var li_width=292;
+			
+			if(ul1.style.left=='-'+li_width*2+'px'){
+				ul1.style.left=0;
+				//停留图对应的点加深颜色
+				$(".ul2 a").css("opacity","0.3");
+				$(".ul2 a").eq(0).css("opacity","0.6");
+			}else{
+			//去除px 再进行像素运算
+				ul1_left=ul1.style.left.replace('px','');
+				ul1.style.left=	ul1_left-li_width+'px';
+				//根据left的大小判断停留的位置
+				if(ul1.style.left=='-'+li_width+'px'){
+					$(".ul2 a").css("opacity","0.3");
+					$(".ul2 a").eq(1).css("opacity","0.6");
+				}else{
+					$(".ul2 a").css("opacity","0.3");
+					$(".ul2 a").eq(2).css("opacity","0.6");
+				}
+			}
+		}
+		//轮播图的点击事件
+		function go(a){
+			//text
+			$(".text li").attr("style","display:none");
+			$(".text li").eq(a).attr("style",'display:block');
+			
+			//停留图对应的点加深颜色
+			$(".ul2 a").css("opacity","0.3");
+			$(".ul2 a").eq(a).css("opacity","0.6");
+			
+			var ul1=document.getElementsByClassName("ul1")[0];
+			var li_width=292;
+
+			ul1.style.left=a*-li_width+'px';
+			/* 防止刚点击时计时器马上又跳转 */
+			window.clearInterval(goMove);//关闭定时器
+			goMove=window.setInterval("move()",3000);//开启计时器
+		}
+		function look(id){
+			location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+id;
+		}
+	</script>
+</body>
+</html>
