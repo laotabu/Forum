@@ -9,6 +9,7 @@ header("content-type:text/html;charset=utf-8");
 		// 构造函数
 		 function __construct() {
        		$this->_serverLink = mysql_connect($this->_dsn,$this->_name,$this->_password);
+       		mysql_select_db($this->_database);
   		 }
   		 // 析构函数
  		 function __destruct() {
