@@ -1,0 +1,59 @@
+#content .post_nav{
+	background:#f8f8f8;
+	height: 40px;
+	padding: 10px 0;
+	box-shadow: 2px 2px 5px #ccc;
+
+}
+.pitchOn{
+	border: 1px solid #666 !important;
+	font-weight: bold  !important;
+}
+#content .post_nav li{
+	float: left;
+	width: 70px;
+	height: 24px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	margin-left: 10px;
+	text-align: center;
+	line-height: 24px;
+}
+#content .post_nav li:hover{
+	border: 1px solid #666;
+	font-weight: bold;
+	cursor:pointer;
+	
+}
+
+#content .nav_item{
+	width: 100%;
+	height: auto;
+	background: white;
+	box-shadow: 2px 2px 5px #ccc;
+	padding: 5px 30px;
+	overflow: hidden;
+}
+#content .nav_item table{
+	border-bottom: 1px solid #ccc;
+}
+#content .nav_item table tr{
+	padding-top: 2px;
+}
+#content .nav_item table tr:hover{
+	cursor:pointer;
+}
+#content .nav_item tr td:nth-of-type(5) p{
+	font-size: 9px;
+	margin: 0;
+}
+#content .nav_item tr td:nth-of-type(5) p:nth-of-type(2){
+	color: #aaa;
+}
+#content .nav_item tr td:nth-of-type(n+2){
+	font-size: 13px;
+}
+.table-condensed>tbody>tr>td{
+	padding-top: 12px;
+}

@@ -1,0 +1,97 @@
+
+#content .content_body{
+	padding: 0;
+	display: flex;
+	height: auto;
+}
+#content .content_body>.content_left{
+	flex: 1;
+	margin-right:7px;
+	padding:5px 0 0 5px;
+}
+#content .content_body .panel{
+	border-radius: 2px;
+}
+#content .content_left .panel-group{
+	font-size: 10px;
+	border-radius: 0;
+}
+#content .panel-heading{
+	padding-top: 1px;
+	padding-bottom: 0;
+	background: #f5f5f5;
+	border-color: #eee;
+}
+#content .panel-heading a{
+	font-size: 14px;
+	line-height: 30px;
+	display: block;
+}
+
+
+#content .content_body>.content_right{
+	flex: 6;
+	height: auto;
+}
+#content .post_nav{
+	background:#f8f8f8;
+	height: 40px;
+	padding: 10px 0;
+	box-shadow: 2px 2px 5px #ccc;
+
+}
+.pitchOn{
+	border: 1px solid #666 !important;
+	font-weight: bold  !important;
+}
+#content .post_nav li{
+	float: left;
+	width: 70px;
+	height: 24px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	box-sizing: border-box;
+	margin-left: 10px;
+	text-align: center;
+	line-height: 24px;
+}
+#content .post_nav li:hover{
+	border: 1px solid #666;
+	font-weight: bold;
+	cursor:pointer;
+	
+}
+
+#content .nav_item{
+	width: 100%;
+	height: auto;
+	background: white;
+	box-shadow: 2px 2px 5px #ccc;
+	padding: 5px 30px;
+	
+}
+#content .nav_item table{
+	border-bottom: 1px solid #ccc;
+}
+#content .nav_item table tr:hover{
+	cursor:pointer;
+}
+#content .nav_item tr td:nth-of-type(4) p{
+	font-size: 9px;
+	margin: 0;
+}
+#content .nav_item tr td:nth-of-type(4) p:nth-of-type(2){
+	color: #aaa;
+}
+#content .nav_item tr td:nth-of-type(n+2){
+	font-size: 13px;
+}
+#content .content_left li:hover{
+	background: #fafafa;
+	cursor: pointer;
+}
+.picthOn_module{
+	font-size: 11px;
+	background: #fafafa;
+	font-weight: bold;
+}

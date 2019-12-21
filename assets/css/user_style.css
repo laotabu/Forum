@@ -1,0 +1,221 @@
+#content{
+	box-shadow: none;
+}
+#content .top{
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	padding: 20px 20px 10px 5px;
+	background: #fcfcfc;
+	box-shadow: 2px 2px 5px #ccc;
+	display: flex;
+}
+#content .top .left{
+	flex: 1;
+	text-align: center;
+	padding: 0px 20px; 
+}
+#content .top .text{
+	flex: 6;
+}
+#content .top .img{
+	width: 120px;
+	height: 120px;
+	border: 1px solid #eee;
+	margin: 0 auto 3px;
+	overflow: hidden;
+}
+#content .top .img img{
+	 width: 100%;
+    height: auto;
+}
+#content .top .intro{
+	display: flex;
+	margin-bottom: 10px;
+}
+#content .top .intro span{
+	flex: 1;
+}
+#content .top .intro p{
+	flex: 10;
+	letter-spacing:1px;
+	min-height: 40px;
+}
+#content .top .left a{
+	font-size: 12px;
+}
+#content .top h2{
+	margin-top:0;
+}
+#content .new_img{
+	width: 100%;
+	height: auto;
+	background: white;
+	box-shadow: 2px 2px 5px #ccc;
+	margin-top: 5px;
+	padding:10px 10px 10px;
+	overflow: hidden;
+}
+#content .update{
+	width: 100%;
+	height: auto;
+	background: #fcfcfc;
+	box-shadow: 2px 2px 5px #ccc;
+	padding:20px 10px 10px;
+}
+#content .update h4{
+	padding-bottom: 10px;	
+	text-align: center;
+}
+#content .update textarea{
+	resize: none;	
+}
+#content .add{
+	width: 100%;
+	height: auto;
+	background: #fcfcfc;
+	box-shadow: 2px 2px 5px #ccc;
+	padding:20px 10px 25px;
+}
+#content .add h4{
+	padding-bottom: 10px;	
+	text-align: center;
+}
+#content .bottom{
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	box-shadow: 2px 2px 5px #ccc;
+	margin-top: 10px;
+}
+#content .bottom .nav{
+	height: 40px;
+	background: #f7f7f7;
+	border: solid 1px #eee;
+	padding:0 0 0 12px;
+	line-height: 40px;
+}
+#content .bottom .nav span{
+	font-size: 17px;
+	font-weight: bold;
+}
+#content .bottom .content{
+	height: auto;
+	background:white;
+	padding: 10px;
+}
+/* 限制表格内容长度 */
+#content .bottom table tr td>p{
+	margin-bottom: 0;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-moz-appearance:1;/*火狐*/
+	-webkit-box-orient: vertical;
+}
+#content .nav_item {
+	position: relative;
+	height: auto;
+	overflow: hidden;
+	padding-bottom:20px ;
+}
+#content .nav_item table{
+	border-bottom: 1px solid #ccc;
+}
+#content .nav_item table tr{
+	padding-top: 2px;
+}
+#content .nav_item table tr:hover{
+	cursor:pointer;
+}
+#content .nav_item tr td:nth-of-type(5) p{
+	font-size: 9px;
+	margin: 0;
+}
+#content .nav_item tr td:nth-of-type(5) p:nth-of-type(2){
+	color: #aaa;
+}
+#content .nav_item tr td:nth-of-type(n+2){
+	font-size: 13px;
+}
+#content .bottom tbody tr td{
+	padding-top: 12px;
+	max-width: 250px;
+}
+#content .nav_item .more{
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+#content .nav_item ul li{
+	float: left;
+	padding: 10px;
+	border: 1px solid white;
+	width: 170px;
+	height: 230px;
+	margin:5px 12px 5px;
+	position: relative;
+	border-bottom: 1px solid #eee;
+}
+#content .nav_item ul li:hover{
+	border: 1px solid orangered;
+	background: none !important;
+}
+#content .nav_item ul li:hover img{
+	opacity: 0.8;
+}
+#content  .nav_item li img{
+	width: 100%;
+	height: 135px;
+	margin-bottom: 8px;
+}
+#content .nav_item li p{
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-moz-appearance:1;/*火狐*/
+	-webkit-box-orient: vertical;
+}
+#content  .nav_item li span:nth-of-type(1){
+	color: #FF5500;
+	font-weight: bold;
+	position: absolute;
+	bottom: 25px;
+}
+#content  .nav_item li span:nth-of-type(2) a{
+	font-size: 9px;
+	color: #aaa;
+	position: absolute;
+	bottom: 27px;
+	right: 10px;
+}
+#content  .nav_item li span:nth-of-type(3){
+	font-size: 9px;
+	position: absolute;
+	bottom: 3px;
+	left:5;
+}
+#content  .nav_item li span:nth-of-type(4){
+	font-size: 12px;
+	position: absolute;
+	bottom: 4px;
+	right: 10px;
+}
+#content  .nav_item li span:nth-of-type(4) a{
+	text-decoration:underline;
+	color: #000;
+}
+.modal-dialog{
+	width: 1000px;
+}
+.modal table{
+	width: 600px;
+}
+.modal table tr td{
+	padding-top: 20px;
+	text-align: left;
+}
+.modal table tr td:nth-of-type(1){
+	width: 75px;
+}

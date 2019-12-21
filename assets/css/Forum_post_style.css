@@ -1,0 +1,20 @@
+#content .post_nav{
+	background:#f8f8f8;
+	height:35px;
+	padding: 10px;
+	box-shadow: 2px 2px 5px #ccc;
+}
+#content .post_nav li{
+	float: left;
+}
+#content .content_body{
+	width: 100%;
+	height: auto;
+}
+#content .cover span{
+	font-size: 17px;
+}
+#content .cover input{
+	display: inline;
+	margin: 5px;
+}

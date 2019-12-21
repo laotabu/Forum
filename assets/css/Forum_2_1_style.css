@@ -1,0 +1,152 @@
+
+#content .content_body{
+	height: auto;
+	padding: 0;
+	overflow: inherit;
+}
+#content .content_template{
+	display: flex;
+	margin-top: 0px;
+	border-bottom: 1px solid #eee;
+}
+#content .template_left{
+	flex: 2;
+	height: auto;
+	background:#fafafa;
+	border-right: 1px solid #e8e8e8;
+	padding-top: 10px;
+}
+#content .template_left .img{
+	height: 100px;
+	width: 100px;
+	padding: 2px;
+	background: white;
+	border: solid 1px #ccc;
+	box-shadow: 0px 0px 1px #ccc;
+	margin: 20px auto;
+}
+#content .template_left img{
+	width:100%;
+	height:auto;
+}
+#content .template_left .text{
+	width: 100%;
+	margin-bottom:100px ;
+}
+#content .template_left .text p{
+	text-align: center;
+}
+#content .template_left .text p:nth-of-type(1){
+	font-weight: bold;
+}
+#content .template_left .text p:nth-of-type(3){
+	font-size: 12px;
+}
+#content .template_right{
+	flex: 9;
+	height: auto;
+	background: #fffdfa;
+	padding:25px 15px;
+	position: relative;
+}
+#content .template_right .title{
+	margin-top: 0;
+	border-bottom: 1px solid #ccc;
+}
+#content .template_right h3{
+	margin-top: 0;
+	position: relative;
+}
+#content .template_right .content{
+	font-size: 16px;
+	padding:10px 0 100px 0;
+	min-height: 300px;
+}
+#content .template_right .img{
+	height: 35px;
+	width: 35px;
+	background: url(../img/zan.png) no-repeat;
+	background-size: contain;
+	position: absolute;
+	left: 50%;
+	bottom: 30px;
+	transform: translate(-50%,-50%);
+}
+#content .template_right .link{
+	position: absolute;
+	left: 15px;
+	bottom:130px;
+}
+#content .template_right h3 #inform{
+	position: absolute;
+	bottom: -5px;
+	right: 20px;
+}
+.praise_sum{
+	position: absolute;
+	left: 50%;
+	bottom: 20px;
+	transform: translate(-50%,-50%);
+	font-size: 12px;
+}
+#content .template_right .img:hover{
+	background: url(../img/zan_1.png) no-repeat;
+	background-size: contain;
+	cursor: pointer;
+}
+#content .template_right .comment{
+	width: 95%;
+	height: auto;
+	float: right;
+	padding: 20px 20px 15px;
+	background: #f3f3f3;
+	border: 1px solid #ededed;
+}
+#content .template_right .comment .comment_two,.comment_three{
+	overflow: hidden;
+}
+#content .template_right .comment_img{
+	width: 5%;
+	float: left;
+	text-align: right;
+}
+#content .template_right .comment img{
+	width: 30px;
+	height: 30px;
+	border: 1px solid #ccc;
+	padding: 1px;
+}
+#content .template_right .comment .text{
+	width: 95%;
+	float: right;
+	padding-left: 5px;
+}
+#content .template_right .comment .text span,a{
+	font-size: 12px;
+}
+#content .template_right .bottom{
+	text-align: right;
+	
+}
+#content .create_time{
+	font-size: 12px;
+}
+#content .template_right .comment .text .create_time{
+	font-size: 10px  !important;
+}
+#content .template_right textarea{
+	margin-bottom: 2px;
+}
+#content .textarea{
+	margin-top: 5px;
+	width: 100%;
+	height: auto;
+}
+.is_praise{
+	background: url(../img/zan_1.png) no-repeat !important;
+	background-size: contain !important;
+}
+/* 防止图片太大溢出 */
+#content img{
+	max-width: 100%;
+}
