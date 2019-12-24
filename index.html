@@ -19,7 +19,7 @@
 	<div id="top">
 		<div class="top_content type_area">
 			<div class="top_left float_left">欢迎~~~</div>
-			<div class="top_right float_right"><span id="username">lin</span><a href="index.php?back=1">退出</a></div>
+			<div class="top_right float_right"><span id="username"></span><a href="index.php?back=1">退出</a></div>
 		</div>
 	</div>
 	<!-- 头部模块 -->
@@ -139,8 +139,9 @@
 				<!-- 1.模板 -->
 				<script type="text/html" id="content_body_1">
 				{{each comments}}
+				
 				{{if $value.module_type==1}}
-					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=1&module_id='+{{$value.id}}">
+						<div class="classify" onclick="window.location.href='Forum_module.php?module_type=1&module_id='+{{$value.id}}">
 						<div class="img" >
 							<img src="assets/img/module_1.png" alt="图片">
 						</div>
@@ -228,14 +229,15 @@
 	
 	<!-- JavaScript -->
 	<script>
+		
 		$(function(){
 			$(".text li").eq(0).attr("style","display:block");
 			$(".text li").eq(1).attr("style","display:none");
 			$(".text li").eq(2).attr("style","display:none");
 			/* 轮播图定时器 */
 			goMove=window.setInterval("move()",3000);
-			/* banner 新闻 new&hot 切换 */
-			$("#newPost").click(function(){
+			//banner 新闻 new&hot 切换 
+			/*$("#newPost").click(function(){
 				$(".title_item li").css("background","");
 				$("#newPost").css("background","#636267");
 				$.ajax({
@@ -243,20 +245,24 @@
 					type:"POST",
 					data:{data:'allPost'},
 					success: function(msg){
-				    	var data=JSON.parse(msg);
-						console.log(data);
-						/* 2.准备模板所需要数据 */
-						var context={comments:data};
-						/* 3.渲染数据 */
-						var html=template('new_table_template',context);
-						document.querySelector('#new_table').innerHTML=html;
+						for (var i = 0; i < msg.length; i++) {
+							console.log(msg);
+							var data=JSON.parse(msg[i]);*/
+							
+							/* 2.准备模板所需要数据 */
+							//var context={comments:data};
+							/* 3.渲染数据 */
+							/*var html=template('new_table_template',context);
+							document.querySelector('#new_table').innerHTML=html;
+						}
+				    	
 				    },
 				    error:function(e){
 				    	alert("前后端交互失败！"); 
 				    }
 				})
-			});
-			$("#hotPost").click(function(){
+			});*/
+			/*$("#hotPost").click(function(){
 				$(".title_item li").css("background","");
 				$("#hotPost").css("background","#636267");
 				$.ajax({
@@ -267,19 +273,18 @@
 				    	var data=JSON.parse(msg);
 						console.log(data);
 						/* 2.准备模板所需要数据 */
-						var context={comments:data};
+						//var context={comments:data};
 						/* 3.渲染数据 */
-						var html=template('hot_table_template',context);
+						/*var html=template('hot_table_template',context);
 						document.querySelector('#hot_table').innerHTML=html;
 				    },
 				    error:function(e){
 				    	alert("前后端交互失败！"); 
 				    }
 				})
-			});
+			});*/
 			/* banner新闻列表 */
-	
-			/* banner new&hot切换按钮 */
+			/*banner new&hot切换按钮 */
 			$( "#tabs" ).tabs();
 			/* content模块 */
 			$.ajax({
@@ -287,8 +292,7 @@
 				type:"POST",
 				data:{data:'allModule'},
 				success: function(msg){
-			    	var data=JSON.parse(msg);
-					console.log(data);
+					var data = JSON.parse(msg);
 					/* 2.准备模板所需要数据 */
 					var context={comments:data};
 					/* 3.渲染数据 */
@@ -313,10 +317,9 @@
 						window.location.href="login.html";
 					}else{
 						var data=JSON.parse(msg);
-						$("#username").text(data['username']);
+						$("#username").text(data['u_name']);
 						$(".user_item li img").attr('src',data['user_image']);
-						$(".user_item .username").text(data['username']);
-						
+						$(".user_item .username").text(data['u_name']);						
 					}
 			    },
 			    error:function(e){
@@ -337,7 +340,7 @@
 			    }
 			})
 			/* banner 轮播图 */
-			$.ajax({
+			/*$.ajax({
 				url:"index.php",
 				type:"POST",
 				data:{data:'hotPost'},
@@ -361,7 +364,7 @@
 			    error:function(e){
 			    	alert("前后端交互失败！"); 
 			    }
-			})
+			})*/
 		})
 		//轮播图 事件
 		function move(){
@@ -422,6 +425,7 @@
 		function look(id){
 			location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+id;
 		}
+	
 	</script>
 </body>
 </html>
