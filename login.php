@@ -28,16 +28,17 @@
 					if($affectedRows==1){
 						//储存用户会话信息
 						session_start();
-						$_SESSION['id'] = $result['id'];
+						
 						$_SESSION['u_name'] = $result['u_name'];
 						$_SESSION['u_id'] = $result['u_id'];
-						//$_SESSION['user_type'] = $result['user_type'];
+						$_SESSION['u_passwd'] = $result['u_passwd'];
+						$_SESSION['u_type'] = $result['u_type'];
 						//进入哪个系统
-						/*if($user['user_type']==1){
+						if($result['u_type']==1){
 							echo 1;
-						}else if($user['user_type']==2){
+						}else if($result['u_type']==2){
 							echo 2;
-						}*/
+						}
 					}else{
 						echo "系统出错！";
 					}
@@ -48,20 +49,21 @@
 				}
 			}else if($is_enable==1){ //账号正常
 				//清除密码错误次数
-				$sql="update user set u_passwd_error=0 where u_id='$u_name'";
+				$sql="update user set u_passwd_error=0 where u_id='$u_id'";
 				$affectedRows=$mysql->exec($sql);
+				
 				//储存用户会话信息
 				session_start();
-				$_SESSION['id'] = $user['id'];
-				$_SESSION['u_name'] = $user['u_name'];
-				$_SESSION['u_id'] = $user['u_id'];
-				/*$_SESSION['user_type'] = $user['user_type'];
+				$_SESSION['u_name'] = $result['u_name'];
+				$_SESSION['u_id'] = $result['u_id'];
+				$_SESSION['u_passwd'] = $result['u_passwd'];
+				$_SESSION['u_type'] = $result['u_type'];
 				//进入哪个系统
-				if($user['user_type']==1){
+				if($result['u_type']==1){
 					echo 1;
-				}else if($user['user_type']==2){
+				}else if($result['u_type']==2){
 					echo 2;
-				}*/
+				}
 			}else if($is_enable==2){ //管理员锁定
 				echo 3;
 			}
@@ -85,23 +87,23 @@
 					$now_time=time();
 					$interval=$now_time-$last_login_time;
 					if($interval>60){
-						$sql="update user set is_enable=1, u_passwd_error=0 where u_id='$u_name'";
+						$sql="update user set is_enable=1, u_passwd_error=0 where u_id='$u_id'";
 						$affectedRows=$mysql->exec($sql);
 						if($affectedRows==1){
+
 							//储存用户会话信息
 							session_start();
-							$_SESSION['id'] = $user['id'];
-							$_SESSION['u_name'] = $user['u_name'];
-							$_SESSION['u_id'] = $user['u_id'];
-							
-							/*$_SESSION['user_type'] = $user['user_type'];
 
+							$_SESSION['u_name'] = $result['u_name'];
+							$_SESSION['u_id'] = $result['u_id'];
+							$_SESSION['u_passwd'] = $result['u_passwd'];
+							$_SESSION['u_type'] = $result['u_type'];
 							//进入哪个系统
-							if($user['user_type']==1){
+							if($result['u_type']==1){
 								echo 1;
-							}else if($user['user_type']==2){
+							}else if($result['u_type']==2){
 								echo 2;
-							}*/
+							}
 						}else{
 							echo "系统出错！";
 						}
