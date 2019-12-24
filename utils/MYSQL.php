@@ -41,14 +41,26 @@ header("content-type:text/html;charset=utf-8");
 		    $resultSet = mysql_query($sql);
 			if(is_bool($resultSet)){
 				// update, insert, delete
-				return mysql_affected_rows()>0?mysql_affected_rows():0;
+				$res = mysql_affected_rows();	
+				return $res>0?$res:0;
 			}else {
 				// select
-				return mysql_fetch_array($resultSet)>0?mysql_fetch_array($resultSet):false;
+				$res = mysql_fetch_array($resultSet);
+				mysql_free_result($resultSet);
+				return $res>0?$res:false;
 			}
 		}
 		
-	
+		public function queryAll($sql){//返回全部结果集
+			$resultSet = mysql_query($sql);
+			$res = array();
+			while ($temp = mysql_fetch_array($resultSet)) {
+				array_push($res, $temp);
+			}
+			mysql_free_result($resultSet);
+			//print_r($res);
+			return json_encode($res);	
+		}
 
 
 		/*public function queryOne($sql){//返回一条结果集

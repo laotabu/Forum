@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set("PRC");
 error_reporting( E_ALL&~E_NOTICE );
 function DatetimeToSeconds($date_time) {
 	$obj=array();
