@@ -1,0 +1,45 @@
+textarea{
+	resize: none;
+}
+
+.green{
+	color: green;
+}
+.red{
+	color: red;
+}
+table tr th:last-child{
+	text-align: center;
+}
+table tr td:last-child{
+	text-align: center;
+}
+/* 防止内容溢出 */
+.modal-dialog p,.modal-dialog table,.modal-dialog ul,.modal-dialog li{
+	width: 100% !important;
+	height: auto;
+}
+.modal-dialog img{
+	max-width: 100% !important;
+	height: auto;
+}
+table tr td{
+	max-width: 400px;
+	min-width: 120px;
+}
+table tr td>p{
+	margin-bottom: 0;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-moz-appearance:1;/*火狐*/
+	-webkit-box-orient: vertical;
+}
+/* 查询 */
+#select{
+	width: 1000px;
+	margin: 0 auto;
+}
+#select .input-group{
+	padding-top: 20px;
+}
