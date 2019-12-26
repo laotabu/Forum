@@ -41,10 +41,11 @@ header("content-type:text/html;charset=utf-8");
 		    $resultSet = mysql_query($sql);
 			if(is_bool($resultSet)){
 				// update, insert, delete
+				
 				$res = mysql_affected_rows();	
 				return $res>0?$res:0;
 			}else {
-				// select
+				// select	
 				$res = mysql_fetch_array($resultSet);
 				mysql_free_result($resultSet);
 				return $res>0?$res:false;
