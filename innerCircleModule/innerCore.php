@@ -27,7 +27,7 @@
 			session_start();
 			$post_user_id=$_SESSION['u_id'];
 			
-			$sql="select * from post where post_user_id='$post_user_id' and audit_result=1  order by create_time desc";
+			$sql="select * from post where post_user_id='$post_user_id' and audit_result=1  order by post_time desc";
 			$data=$mysql->queryAll($sql);
 			$data = json_decode($data);
 		}else if($type==5){ //模糊查询
@@ -122,7 +122,7 @@
 	<div id="nav" class="type_area">
 		<ul class="nav_item">
 			<li onclick="location.href='../index.html'">首页</li>
-			<li onclick="location.href='Forum_2.php'" style="background:#2d004e;">贴吧模式</li>
+			<li onclick="location.href='innerCore.php'" style="background:#2d004e;">贴吧模式</li>
 			<!--<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>-->
 			<li onclick="location.href='Forum_post.php'">发帖</li>
 			<!--<li onclick="location.href='Forum_store.php'">商城</li>-->
@@ -132,7 +132,7 @@
 		<ul class="user_item">
 			<li onclick="location.href='Forum_user.php'"><img src="../assets/img/head.png" ></li>
 			<li class="username" onclick="location.href='Forum_user.php'">Lin</li>
-			<li><a href="Forum_2.php?type=4">我的帖子</a></li>
+			<li><a href="innerCore.php?type=4">我的帖子</a></li>
 			<li><a href="Forum_user.php">个人资料</a></li>
 			<li><a href="Forum_post.php">发帖</a></li>
 		</ul>
@@ -172,14 +172,14 @@
 						<td><?php echo $value->{'post_sum'}?></td>
 						<?php 
 							$post_id=$value->{"Id"};
-							$sql="select * from comment where post_id='$post_id' order by create_time desc limit 0, 1 ";
+							$sql="select * from comment where post_id='$post_id' order by post_time desc limit 0, 1 ";
 							$result=$mysql->exec($sql);
 
 						?>
 						
 						<td>
 							<p class="username"><?php echo isset($result->{'user_name'})?$result->{'user_name'}:"-"?></p>
-							<p><?php echo isset($result->{'create_time'})?$result->{'create_time'}:"-"?><p>
+							<p><?php echo isset($result->{'post_time'})?$result->{'post_time'}:"-"?><p>
 						</td>
 						
 						<td><?php echo $value->{'post_time'}?></td>
@@ -256,8 +256,8 @@
 		function select(e){
 				/* $(".post_nav li").removeClass("pitchOn");
 				$(".post_nav li").eq(e).addClass("pitchOn"); */
-				if(e==0) location.href="Forum_2.php";
-				else location.href="Forum_2.php?type="+e;
+				if(e==0) location.href="innerCore.php";
+				else location.href="innerCore.php?type="+e;
 			}
 	</script>
 </body>
