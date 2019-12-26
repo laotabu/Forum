@@ -227,7 +227,7 @@
 				data:{data:'user'},
 				success: function(msg){
 					if(msg==1){
-						window.location.href="login.html";
+						window.location.href="../login.html";
 					}else{
 						var data=JSON.parse(msg);
 						$("#username").text(data['u_name']);
