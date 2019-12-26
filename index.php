@@ -10,15 +10,15 @@
 			$result=$mysql->queryAll($sql);
 			echo $result;
 		}else if($data=='allPost'){
-			$sql="select * from `post` where `audit_result`=1 order by id desc limit 6";/*  order by id desc 按照id倒序输出 */
+			$sql="select * from post where audit_result=1 order by id desc limit 6";/*  order by id desc 按照id倒序输出 */
 			$result=$mysql->queryAll($sql);
 			echo $result;
-		}/*else if($data=='hotPost'){
+		}else if($data=='hotPost'){
 			$sql="select * from post where audit_result=1 order by post_hot desc limit 6";
-			/* 点赞数越高排名越前 所以要倒序输出 
+			/* 点赞数越高排名越前 所以要倒序输出 */
 			$result=$mysql->queryAll($sql);
 			echo $result;
-		}*/else if($data=='user'){ //普通用户信息
+		}else if($data=='user'){ //普通用户信息
 			session_start();
 			if(isset($_SESSION['u_name'])&&$_SESSION['u_type']==2){
 				$u_name=$_SESSION['u_name'];
