@@ -22,7 +22,6 @@
 			session_start();
 			if(isset($_SESSION['u_name'])&&$_SESSION['u_type']==2){
 				$u_name=$_SESSION['u_name'];
-
 				$sql="select * from user where u_name='$u_name'";
 				$data=$mysql->exec($sql);
 				//echo "<script>alert($data[0])</script>";
@@ -34,10 +33,8 @@
 			session_start();
 			if(isset($_SESSION['u_name'])&&$_SESSION['user_type']==1){
 				$u_name=$_SESSION['u_name'];
-
 				$sql="select * from `user` where `u_name`='$u_name'";
 				$data=$mysql->exec($sql);
-
 				echo json_encode($data);
 			}else{
 				echo 1;
@@ -64,8 +61,8 @@
 			if(isset($_SESSION['id'])){
 				unset($_SESSION['id']);
 			}
-			if(isset($_SESSION['user_type'])){
-				unset($_SESSION['user_type']);
+			if(isset($_SESSION['u_type'])){
+				unset($_SESSION['u_type']);
 			}
 			session_destroy();//删除所有session
 			header("location:login.html");
