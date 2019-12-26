@@ -54,12 +54,16 @@ header("content-type:text/html;charset=utf-8");
 		public function queryAll($sql){//返回全部结果集
 			$resultSet = mysql_query($sql);
 			$res = array();
-			while ($temp = mysql_fetch_array($resultSet)) {
-				array_push($res, $temp);
+			if (is_bool($resultSet)) {
+				return json_encode($res);
+			}else {
+				while ($temp = mysql_fetch_array($resultSet)) {
+					array_push($res, $temp);
+				}
+				mysql_free_result($resultSet);
+				//print_r($res);
+				return json_encode($res);
 			}
-			mysql_free_result($resultSet);
-			//print_r($res);
-			return json_encode($res);	
 		}
 
 
