@@ -49,17 +49,17 @@
 			<li onclick="location.href='index.html'" style="background:#2d004e;">首页</li>
 			<li onclick="location.href='innerCircleModule/innerCore.php'">贴吧模式</li>
 			<!--<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>-->
-			<li onclick="location.href='Forum_post.php'">发帖</li>
+			<li onclick="location.href='innerCircleModule/Forum_post.php'">发帖</li>
 			<!--<li onclick="location.href='Forum_store.php'">商城</li>-->
-			<li onclick="location.href='Forum_user.php'">个人中心</li>
+			<li onclick="location.href='innerCircleModule/Forum_user.php'">个人中心</li>
 			<li class="nav_itemEnd">快捷导航</li>
 		</ul>
 		<ul class="user_item">
 			<li onclick="location.href='Forum_user.php'"><img src="assets/img/head.png" ></li>
 			<li class="username" onclick="location.href='Forum_user.php'">Lin</li>
 			<li><a href="innerCircleModule/innerCore.php?type=4">我的帖子</a></li>
-			<li><a href="Forum_user.php">个人资料</a></li>
-			<li><a href="Forum_post.php">发帖</a></li>
+			<li><a href="innerCircleModule/Forum_user.php">个人资料</a></li>
+			<li><a href="innerCircleModule/Forum_post.php">发帖</a></li>
 		</ul>
 		<!-- 公告 -->
 		<div class="notice">
@@ -99,7 +99,7 @@
 						<li id="hotPost"><a href="#hot_table">热门贴子</a></li>
 					</ul>
 				</div>
-				<div class="recommend_item">
+				<div class="recommend_item" id="recommend_item">
 					<!-- 最新贴列表 -->
 					<table id="new_table">
 						<script  type="text/html" id="new_table_template">
@@ -229,7 +229,6 @@
 	
 	<!-- JavaScript -->
 	<script>
-		
 		$(function(){
 			$(".text li").eq(0).attr("style","display:block");
 			$(".text li").eq(1).attr("style","display:none");
@@ -237,6 +236,10 @@
 			/* 轮播图定时器 */
 			goMove=window.setInterval("move()",3000);
 			//banner 新闻 new&hot 切换 
+
+
+
+
 			$("#newPost").click(function(){
 				$(".title_item li").css("background","");
 				$("#newPost").css("background","#636267");
@@ -245,7 +248,7 @@
 					type:"POST",
 					data:{data:'allPost'},
 					success: function(msg){
-							console.log(msg);
+							//console.log(msg);
 							var data=JSON.parse(msg);
 							
 							/* 2.准备模板所需要数据 */
@@ -268,7 +271,7 @@
 					data:{data:'hotPost'},
 					success: function(msg){
 				    	var data=JSON.parse(msg);
-						console.log(data);
+						//console.log(data);
 						/* 2.准备模板所需要数据 */
 						var context={comments:data};
 						/* 3.渲染数据 */
@@ -342,9 +345,13 @@
 				type:"POST",
 				data:{data:'hotPost'},
 				success: function(msg){
+
 			    	var data=JSON.parse(msg);
 					for(var i=0;i<=2;i++){
-						$(".banner_left .ul1 li img").eq(i).attr("src",data[i]['post_cover_image']);
+						if (i >= data.length) {
+							break;
+						}
+						$(".banner_left .ul1 li img").eq(i).attr("src","/Forum"+data[i]['post_cover_image'].substr(2));
 						$(".banner_left .text li").eq(i).text(data[i]['post_title']);
 					}
 					//点击轮播图跳转页面
