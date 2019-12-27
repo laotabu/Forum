@@ -165,7 +165,7 @@
 					<?php 
 
 					foreach($data as $value){?>
-					<tr onclick="location.href='Forum_2_1.php?id=<?php echo $value->{'id'}?>'">
+					<tr onclick="location.href='Forum_post_item.php?Id=<?php echo $value->{'Id'}?>'">
 						<td><?php echo $value->{'post_title'}?></td>
 						<td><?php echo $value->{'post_module_name'}?></td>
 						<td><?php echo $value->{'post_user_name'}?></td>

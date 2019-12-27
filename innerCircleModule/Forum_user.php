@@ -2,31 +2,32 @@
 	date_default_timezone_set('PRC');
 	/* 数据插入 */
 	$pach= $_SERVER['DOCUMENT_ROOT'];
-	include $pach.'/Forum/MYSQL.php';
+	include $pach.'/Forum/utils/MYSQL.php';
 	$mysql=new Mysql();
 	
 	//获取当前用户
 	session_start();
-	if(isset($_SESSION['id'])){
-		$user_id=$_SESSION['id'];
+	if(isset($_SESSION['u_id'])){
+		$u_id=$_SESSION['u_id'];
 	}else{
-		header("Location:login.html");
+		header("Location:../login.html");
 	}
 	
 	
-	$sql="select * from `user` where id=$user_id";
-	$user=$mysql->queryOne($sql);
+	$sql="select * from user where u_id=$u_id";
+	$user=$mysql->exec($sql);
 	
-	$sql="select * from `post` where post_user_id=$user_id order by `post_time` desc";
+	$sql="select * from post where post_user_id=$u_id order by post_time desc";
 	$data=$mysql->queryAll($sql);
-	
-	$sql="select * from `post` where post_user_id=$user_id and audit_result=1 order by `post_time` desc";
+	$data = json_decode($data);
+
+	/*$sql="select * from `post` where post_user_id=$u_id and audit_result=1 order by post_time desc";
 	$select_data=$mysql->queryAll($sql);;//储存一个数据供发布商品的关联帖子使用
-	
+	$select_data = json_decode($select_data);*/
 	
 	
 	/* //商品购买记录
-	$sql="select * from `commodity` where `commodity_buy`=$user_id order by `create_time` desc";
+	$sql="select * from `commodity` where `commodity_buy`=$u_id order by `create_time` desc";
 	$buy_data=$mysql->queryAll($sql); */
 	
 	//数据缓存_帖子
@@ -38,12 +39,14 @@
 	$toLoad=6;//加载一次多显示6条内容
 	$content=$sum*$toLoad;//共加载的内容条数
 	$data=array_slice($data,0,$content);
+	//print_r($data);
 	if($content>=$dataLength){
 		//more=0说明数据已缓存完
 		$more=0;
 	}
+	/*
 	//展示商品
-	$sql="select * from `commodity` where user_id=$user_id and `commodity_buy`=0  order by `create_time` desc";
+	$sql="select * from `commodity` where u_id=$u_id and `commodity_buy`=0  order by `create_time` desc";
 	$product=$mysql->queryAll($sql);
 	//数据缓存_商品
 	$productLength=count($product);//数组长度
@@ -59,7 +62,7 @@
 		$more_1=0;
 	}
 	//商品卖出记录
-	$sql="select * from `commodity` where user_id=$user_id and `commodity_buy`!=0  order by `create_time` desc";
+	$sql="select * from `commodity` where u_id=$u_id and `commodity_buy`!=0  order by `create_time` desc";
 	$sale_data=$mysql->queryAll($sql);
 	//数据缓存_商品卖出
 	$sale_dataLength=count($sale_data);//数组长度
@@ -75,7 +78,7 @@
 		$more_2=0;
 	}
 	//商品买入记录
-	$sql="select * from `commodity` where  `commodity_buy`=$user_id  order by `create_time` desc";
+	$sql="select * from `commodity` where  `commodity_buy`=$u_id  order by `create_time` desc";
 	$buy_data=$mysql->queryAll($sql);
 	//数据缓存_商品买入
 	$buy_dataLength=count($buy_data);//数组长度
@@ -90,6 +93,7 @@
 		//more_3=0说明数据已缓存完
 		$more_3=0;
 	}
+	*/
 ?>
 <!DOCTYPE html>
 <html>
@@ -97,30 +101,30 @@
 	<title>贴吧模式</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-	<script src="assets/js/jquery-1.11.1.js"></script>
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/all_style.css">
-	<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="assets/css/user_style.css">
+	<script src="../assets/js/jquery-1.11.1.js"></script>
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/all_style.css">
+	<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/css/user_style.css">
 </head>
 <body>
-	<?php include "header.html" ?>
+	<?php include "../header.html" ?>
 
 	<!-- 导航栏 -->
 	<div id="nav" class="type_area">
 		<ul class="nav_item">
-			<li onclick="location.href='index.html'">首页</li>
-			<li onclick="location.href='Forum_2.php'">贴吧模式</li>
-			<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>
+			<li onclick="location.href='../index.html'">首页</li>
+			<li onclick="location.href='innerCore.php'">贴吧模式</li>
+			<!--<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>!-->
 			<li onclick="location.href='Forum_post.php'">发帖</li>
-			<li onclick="location.href='Forum_store.php'">商城</li>
+			<!--<li onclick="location.href='Forum_store.php'">商城</li>-->
 			<li onclick="location.href='Forum_user.php'" style="background:#2d004e;">个人中心</li>
 			<li class="nav_itemEnd">快捷导航</li>
 		</ul>
 		<ul class="user_item">
-			<li onclick="location.href='Forum_user.php'"><img src="assets/img/head.png" ></li>
+			<li onclick="location.href='Forum_user.php'"><img src="../assets/img/head.png" ></li>
 			<li class="username" onclick="location.href='Forum_user.php'">Lin</li>
-			<li><a href="Forum_2.php?type=4">我的帖子</a></li>
+			<li><a href="innerCore.php?type=4">我的帖子</a></li>
 			<li><a href="Forum_user.php">个人资料</a></li>
 			<li><a href="Forum_post.php">发帖</a></li>
 		</ul>
@@ -130,30 +134,38 @@
 		<div class="top">
 			<div class="left">
 				<div class="img">
-					<img src="<?php echo $user['user_image']?>" alt="头像">
+					<img src="<?php 
+						if($user['u_image']=='')
+							echo '../assets/img/defaultHead.jpg';
+						else 
+							echo $user['u_image'];
+					?>" alt="头像">
 				</div>
 				<a href="#">更换图片</a>
 			</div>
 			<div class="text">
-				<h2><?php echo $user['username'] ?></h2>
-				<p>性别：<span><?php echo $user['gender'] ?></span></p>
-				<p>学号：<?php echo $user['student_number']?></p>
-				<p>寄/ 收件地址：<?php if($user['address']=='')echo '未填写...';else echo $user['address'];?></p>
+				<h2><?php echo $user['u_name'] ?></h2>
+				<p>学号：<span><?php echo $user['u_id'] ?></span></p>
+				<p>性别：<?php if($user['u_sex']=='')echo '未填写...';else echo $user['u_sex'];?></p>
+				<p>寄/ 收件地址：<?php if($user['u_address']=='')echo '未填写...';else echo $user['u_address'];?></p>
 				<div class="intro">
 					<span>个人简介：</span>
-					<p><?php echo $user['user_intro'] ?></p>
+					<p><?php if($user['u_info']=='')echo '未填写...';else echo $user['u_info'];?></p>
+				
 				</div>
 				<button type="button" class="btn btn-default  btn-xs float_right">
-				  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;发布商品
-				</button>
-				<button type="button" class="btn btn-default  btn-xs float_right"style="margin-right:5px;">
 				  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;编辑信息
 				</button>
+				<!--<button type="button" class="btn btn-default  btn-xs float_right"style="margin-right:5px;">
+				  <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;编辑信息
+				</button>
+				-->
+				
 			</div>
 		</div>
 		<!-- 更换头像 -->
 		<div class="new_img" style="display: none;">
-			<form action="./user_update.php" method="post" enctype="multipart/form-data">
+			<form action="./Forum_user_service.php" method="post" enctype="multipart/form-data">
 				<input type="file" class="float_left" name="img">
 				<input type="hidden" name="op" value="1">
 				<button type="submit" class="float_left">提交</button>
@@ -162,37 +174,37 @@
 		<!-- 编辑个人信息 -->
 		<div class="update" style="display: none;">
 			<h4>个人信息编辑</h4>
-			<form class="form-horizontal" action="user_update.php" method="post">
+			<form class="form-horizontal" action="Forum_user_service.php" method="post">
 			<input type="hidden" name="op" value="2"><!-- 区别请求内容 -->
 			  <div class="form-group">
 				<label  class="col-sm-3 control-label">用户名</label>
 				<div class="col-sm-7">
-				  <input type="text" class="form-control" id="inputEmail3" placeholder="Username" value="<?php echo $user['username'] ?>"  disabled>
+				  <input type="text" class="form-control" id="inputEmail3" placeholder="Username" value="<?php echo $user['u_name'] ?>"  disabled>
 				</div>
 			  </div>
 			  <div class="form-group">
 				<label  class="col-sm-3 control-label">性别</label>
 				<div class="col-sm-3">
-					<select class="form-control" name="gender">
+					<select class="form-control" name="u_sex">
 					  <option value="男">男</option>
 					  <option value="女">女</option>
 					</select>
 				</div>
 				<label  class="col-sm-1 control-label">手机号</label>
 				<div class="col-sm-3">
-					<input type="text" class="form-control" name="phone" value="<?php echo $user['phone'] ?>">
+					<input type="text" class="form-control" name="u_phone" value="<?php echo $user['u_phone'] ?>">
 				</div>
 			  </div>
 			  <div class="form-group">
 				  <label  class="col-sm-3 control-label">简介</label>
 			  		<div class="col-sm-7">
-						<textarea class="form-control" rows="4" name="user_intro"><?php echo $user['user_intro'] ?></textarea>
+						<textarea class="form-control" rows="4" name="u_info"><?php echo $user['u_info'] ?></textarea>
 					</div>
 			  </div>
 			  <div class="form-group">
 			  		<label  class="col-sm-3 control-label">寄/收件地址</label>
 			  		<div class="col-sm-7">
-			  			<textarea class="form-control" rows="2" name="address"><?php echo $user['address'] ?></textarea>
+			  			<textarea class="form-control" rows="2" name="u_address"><?php echo $user['u_address'] ?></textarea>
 			  		</div>
 			  </div>
 			  <div class="form-group">
@@ -203,11 +215,11 @@
 			</form>	
 		</div>
 		<!-- 发布商品 -->
-		<div class="add" style="display: none;">
+		<!--<div class="add" style="display: none;">
 			<h4>发布商品</h4>
-			<form class="form-horizontal" action="user_update.php" method="post" enctype="multipart/form-data"  onsubmit="return checkForm()">
-				<input type="hidden"id="id" name="id"><!-- 传递商品id -->
-				<input type="hidden" name="op" value="3"><!-- 区别请求内容 -->
+			<form class="form-horizontal" action="Forum_user_service.php" method="post" enctype="multipart/form-data"  onsubmit="return checkForm()">
+				<input type="hidden"id="id" name="id"> 传递商品id
+				<input type="hidden" name="op" value="3"> 区别请求内容
 			  <div class="form-group">
 				<label for="commodity_title" class="col-sm-3 control-label">商品标题</label>
 				<div class="col-sm-7">
@@ -274,6 +286,11 @@
 			  </div>
 			</form>	
 		</div>
+
+
+-->
+
+
 		<div class="bottom" id="post">
 			<div class="nav"><span>动态</span></div>
 			<div class="content">
@@ -283,38 +300,39 @@
 						</thead>
 						<tbody>
 							<?php foreach($data as $value){?>
-							<tr onclick="location.href='Forum_2_1.php?id=<?php echo $value['id']?>'">
-								<td><p><?php echo $value['post_title']?></p></td>
-								<td><?php echo $value['post_module_name']?></td>
+							<tr onclick="location.href='Forum_post_item.php?Id=<?php echo $value->{'Id'}?>'">
+								<td><p><?php echo $value->{'post_title'}?></p></td>
+								<td><?php echo $value->{'post_module_name'}?></td>
 								<td></td>
 								<td></td>
 								<?php 
-									$post_id=$value["id"];
-									$sql="select * from `comment` where `post_id`='$post_id' order by create_time desc limit 0, 1 ";
-									$result=$mysql->queryOne($sql);
+									$post_id=$value->{"Id"};
+									$sql="select * from comment where post_id='$post_id' order by create_time desc limit 0, 1 ";
+									$result=$mysql->exec($sql);
+									
 								?>
 								
 								<td>
-									<p class="username"><?php echo isset($result['user_name'])?$result['user_name']:"-"?></p>
+									<p class="username"><?php echo isset($result['u_name'])?$result['u_name']:"-"?></p>
 									<p><?php echo isset($result['create_time'])?$result['create_time']:"-"?><p>
 								</td>
 								
-								<td><?php echo $value['post_time']?></td>
+								<td><?php echo $value->{'post_time'}?></td>
 								<!-- 已审核显示审核通过或未通过/未审核显示未审核 -->
-								<?php if($value['audit']==1) { ?>
-								<td><?php if($value['audit_result']==1) echo '审核通过';else if($value['audit_result']==10) echo '禁止';else echo '审核未通过' ?></td>
+								<?php if($value->{'audit'}==1) { ?>
+								<td><?php if($value->{'audit_result'}==1) echo '审核通过';else if($value->{'audit_result'}==10) echo '禁止';else echo '审核未通过' ?></td>
 								<?php }else{ ?>
 								<td>未审核</td>
 								<?php } ?>
 								<!-- 审核未通过显示原因/其他不显示 -->
-								<?php if($value['audit_result']==0 ||$value['audit_result']==10){ ?>
+								<?php if($value->{'audit_result'}==0 ||$value->{'audit_result'}==10){ ?>
 								<td class="red">
-									<?php if($value['reason']==1) echo '不适当内容';else if($value['reason']==2) echo '存在侵权行为';else if($value['reason']==3) echo '仿冒商品信息';else if($value['reason']==4) echo '政治反动内容';else if($value['reason']==5) echo "其他" ?>
+									<?php if($value->{'reason'}==1) echo '不适当内容';else if($value->{'reason'}==2) echo '存在侵权行为';else if($value->{'reason'}==3) echo '仿冒商品信息';else if($value->{'reason'}==4) echo '政治反动内容';else if($value->{'reason'}==5) echo "其他" ?>
 								</td>
 								<?php }else{ ?>
 								<td></td>
 								<?php } ?>
-								<td><a href="####" onclick="remove(<?php echo $value['id']?>);stopDefault(event)">删贴</a></td>
+								<td><a href="####" onclick="remove(<?php echo $value->{'Id'}?>);stopDefault(event)">删贴</a></td>
 							<?php }?>
 							</tr>
 						</tbody>
@@ -327,6 +345,7 @@
 				</div>
 			</div>
 		</div>
+		<!--
 		<div class="bottom" id="show">
 			<div class="nav"><span>发布的商品</span></div>
 			<div class="content">
@@ -377,7 +396,7 @@
 								//获取购买人的信息
 								$buy_id=$value['commodity_buy'];
 								$sql="select `username`,`phone`,`address` from `user` where id = $buy_id";
-								$buy_user=$mysql->queryOne($sql);	
+								$buy_user=$mysql->exec($sql);	
 							?>
 							<tr>
 								<td>
@@ -420,9 +439,9 @@
 						<tbody>
 							<?php foreach($buy_data as $value){ 
 								//获取卖家的信息
-								$sale_id=$value['user_id'];
+								$sale_id=$value['u_id'];
 								$sql="select `username`,`phone`,`address` from `user` where id = $sale_id";
-								$sale_user=$mysql->queryOne($sql);
+								$sale_user=$mysql->exec($sql);
 							?>
 							<tr>
 								<td>
@@ -446,6 +465,7 @@
 				</div>
 			</div>
 		</div>
+	-->
 	</div>
 	<!-- 底部模块 -->
 	<div id="footer" class="type_area">
@@ -457,6 +477,7 @@
 		</div>
 	</div>
 	<!-- Modal -->
+	<!--
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
@@ -465,10 +486,10 @@
 	        <h4 class="modal-title" id="myModalLabel">编辑模块简介：</h4>
 	      </div>
 	      <div class="modal-body" style="text-align: center;">
-	      	<!--模态框内容-->
-	      		<form id="form" action="user_update.php" method="post" enctype="multipart/form-data">
+	      	模态框内容
+	      		<form id="form" action="Forum_user_service.php" method="post" enctype="multipart/form-data">
 					<input type="hidden" id="id_1" name="id">
-					<input type="hidden" name="op" value="5"><!-- 区别请求内容 -->
+					<input type="hidden" name="op" value="5">区别请求内容
 					 
 					<table style="margin: 0 auto;">
 						<tr>
@@ -525,12 +546,14 @@
 				</form>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="submit" class="btn btn-primary" form="form">保存</button><!--提交按钮 链接到form表单-->
+	        <button type="submit" class="btn btn-primary" form="form">保存</button>提交按钮 链接到form表单
 	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
+
+-->
 </body>
 	
 	<!-- 百度编辑器 -->
@@ -541,7 +564,7 @@
 	<script type="text/javascript" src="../assets/ueditor/lang/zh-cn/zh-cn.js"></script>
 	<!-- 实例化编辑器 -->
 	<script type="text/javascript">
-		var ue = UE.getEditor('commodity_details', {
+		/*var ue = UE.getEditor('commodity_details', {
 			toolbars: [
 				['fontfamily','fontsize','bold','italic', 'underline','forecolor', 'indent','emotion','insertimage','undo','redo','cleardoc']
 			],
@@ -552,7 +575,7 @@
 				['fontfamily','fontsize','bold','italic', 'underline','forecolor', 'indent','emotion','insertimage','undo','redo','cleardoc']
 			],
 			autoHeightEnabled: false
-		});
+		});*/
 		//模仿数据缓冲
 		/* 帖子 */
 		function go(sum){
@@ -562,30 +585,30 @@
 			},1000);
 		}
 		/* 商品 */
-		function go_1(sum){
+		/*function go_1(sum){
 			$(".more_1 a").text("加载中...");
 			setTimeout(function(){
 				window.location.href="?sum_1="+sum+"#show";
 			},1000);
-		}
+		}*/
 		/* 商品卖出 */
-		function go_2(sum){
+		/*function go_2(sum){
 			$(".more_2 a").text("加载中...");
 			setTimeout(function(){
 				window.location.href="?sum_2="+sum+"#sale";
 			},1000);
-		}
-		function go_3(sum){
+		}*/
+		/*function go_3(sum){
 			$(".more_3 a").text("加载中...");
 			setTimeout(function(){
 				window.location.href="?sum_3="+sum+"#buy";
 			},1000);
-		}
+		}*/
 		//删帖
 		function remove(id){
 			if(confirm("确定删除该帖子吗？")){
 				$.ajax({	
-					url:"user_update.php",
+					url:"Forum_user_service.php",
 					type:"GET",
 					data:{op:1,id:id},
 					success: function(msg){
@@ -604,10 +627,10 @@
 			}
 		}
 		//删除帖子
-		function remove_1(id){
+		/*function remove_1(id){
 			if(confirm("确定删除该商品吗？")){
 				$.ajax({	
-					url:"user_update.php",
+					url:"Forum_user_service.php",
 					type:"GET",
 					data:{op:2,id:id},
 					success: function(msg){
@@ -623,12 +646,12 @@
 					}
 				})
 			}
-		}
+		}*/
 		//编辑
-		function update(id){
+		/*function update(id){
 			$("#id_1").val(id);
 			$.ajax({
-				url:"user_update.php",
+				url:"Forum_user_service.php",
 				type:"POST",
 				data:{op:'4',id:id},
 				success: function(msg){
@@ -640,7 +663,7 @@
 			    	alert("前后端交互失败！"); 
 			    }
 			})
-		}
+		}*/
 		//帖子上点击删除键后阻止上层的页面跳转冒泡(阻止跳转页面)
 		function stopDefault(e){
 			e.stopPropagation();
@@ -658,7 +681,7 @@
 		$(function(){
 			/* 用户名 */
 			$.ajax({
-				url:"index.php",
+				url:"../index.php",
 				type:"POST",
 				data:{data:'user'},
 				success: function(msg){
@@ -666,9 +689,9 @@
 						window.location.href="login.html";
 					}else{
 						var data=JSON.parse(msg);
-						$("#username").text(data['username']);
-						$(".user_item li img").attr('src',data['user_image']);
-						$(".user_item .username").text(data['username']);
+						$("#u_name").text(data['u_name']);
+						$(".user_item li img").attr('src',data['u_image']);
+						$(".user_item .username").text(data['u_name']);
 					}
 				},
 			    error:function(e){
@@ -678,10 +701,10 @@
 			$(".left a").click(function(){
 				$(".new_img").slideToggle(300);
 			});
-			$(".text button").eq(0).click(function(){
+			/*$(".text button").eq(1).click(function(){
 				$(".add").slideToggle(800);
-			});
-			$(".text button").eq(1).click(function(){
+			});*/
+			$(".text button").eq(0).click(function(){
 				$(".update").slideToggle(500);
 			});
 			$("table td:contains('审核通过')").addClass('green');
