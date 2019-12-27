@@ -104,7 +104,7 @@
 					<table id="new_table">
 						<script  type="text/html" id="new_table_template">
 							{{each comments}}
-							<tr onclick="location.href='Forum_2_1.php?id={{$value.id}}'">
+							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.id}}'">
 								<td><span>[ 新帖 ]</span></td>
 								<td><p>{{$value.post_title}}</p></td>
 								<td><span>{{$value.post_user_name}}</span></td>
@@ -116,7 +116,7 @@
 					<table id="hot_table">
 						<script  type="text/html" id="hot_table_template">
 							{{each comments}}
-							<tr onclick="location.href='Forum_2_1.php?id={{$value.id}}'">
+							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.id}}'">
 								<td><span>[ 热门 ]</span></td>
 								<td><p>{{$value.post_title}}</p></td>
 								<td><span>{{$value.post_user_name}}</span></td>
@@ -318,7 +318,7 @@
 					}else{
 						var data=JSON.parse(msg);
 						$("#username").text(data['u_name']);
-						$(".user_item li img").attr('src',data['user_image']);
+						$(".user_item li img").attr('src',"/Forum"+data['u_image'].substr(2));
 						$(".user_item .username").text(data['u_name']);						
 					}
 			    },
@@ -356,13 +356,13 @@
 					}
 					//点击轮播图跳转页面
 					$(".banner_left .ul1 li img").eq(0).click(function(){
-						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[0]['id'];
+						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[0]['id'];
 					});
 					$(".banner_left .ul1 li img").eq(1).click(function(){
-						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[1]['id'];
+						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[1]['id'];
 					});
 					$(".banner_left .ul1 li img").eq(2).click(function(){
-						location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+data[2]['id'];
+						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[2]['id'];
 					});
 			    },
 			    error:function(e){
@@ -427,7 +427,7 @@
 			goMove=window.setInterval("move()",3000);//开启计时器
 		}
 		function look(id){
-			location.href="http://www.guixin.com/Forum/Forum_2_1.php?id="+id;
+			location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+id;
 		}
 	
 	</script>
