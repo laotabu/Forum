@@ -18,22 +18,22 @@
 		}else if($op==2){ //帖子禁止
 			$id=$_GET['id'];
 			$reason=$_GET['reason'];
-			$sql="update post set audit_result=10,audit=1,reason='$reason' where Id='$id'";
+			$sql="update post set audit_result=10,audit=1,reason='$reason' where '$reason' where post_module_id ='$id' ";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-				header("Location: '$referer'"); //浏览器跳转
+				header('location:manage_oldPost.php'); //浏览器跳转
 			}else{
 				exit('数据库出错！');
 			}
 		}else if($op==20){ //帖子 审核不通过
 			$id=$_GET['id'];
 			$reason=$_GET['reason'];
-			$sql="update post set audit_result=0,audit=1,reason='$reason' where Id='$id'";
+			$sql="update post set audit_result=0,audit=1,reason='$reason' where post_module_id ='$id' ";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-				header("Location: '$referer'"); //浏览器跳转
+				header("location:manage_newPost.php"); //浏览器跳转
 			}else{
 				exit('数据库出错！');
 			}
@@ -73,16 +73,16 @@
 			$sql="update `notice` set `notice`='$notice'";
 			$result=$mysql->exec($sql);
 			if($result==1){
-				header('location:notice.php');
+				header('location:manage_notice.php');
 			}else{
 				exit('公告最多发布30字数！请重新输入！');
 			}
-		}else if($op==6){
+		}else if($op==6){//帖子 审核通过
 			$id=$_GET['id'];
-			$sql="update `post` set `audit_result`=1,`audit`=1 where `id`='$id'";
+			$sql="update `post` set `audit_result`=1,`audit`=1 where post_module_id ='$id’ ";
 			$result=$mysql->exec($sql);
 			if($result==1){
-				header('location:newPost.php');
+				header('location:manage_newPost.php);
 			}else{
 				exit('数据库出错！');
 			}
