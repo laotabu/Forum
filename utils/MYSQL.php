@@ -40,8 +40,7 @@ header("content-type:text/html;charset=utf-8");
 		public function exec($sql){
 		    $resultSet = mysql_query($sql);
 			if(is_bool($resultSet)){
-				// update, insert, delete
-				
+				// update, insert, delete	
 				$res = mysql_affected_rows();	
 				return $res>0?$res:0;
 			}else {
