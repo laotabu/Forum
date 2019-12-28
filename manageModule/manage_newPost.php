@@ -1,17 +1,18 @@
 <?php
 	header("content-type:text/html;charset=utf-8");
 	$pach= $_SERVER['DOCUMENT_ROOT'];
-	include $pach.'/Forum/MYSQL.php';
+	// include $pach.'/Forum/MYSQL.php';
+	include $pach.'/Forum/utils/MYSQL.php';
 	$mysql=new Mysql();
 	
 	$sql="select * from `post` where `audit`=0 order by post_time desc";
-	$data=$mysql->queryAll($sql);
+	$data=json_decode($mysql->queryAll($sql));
 	
 	/* 模糊查询 */
 	if(isset($_GET['select'])){
 		$text=$_GET['select'];
 		$sql="SELECT * FROM `post` where `post_title` Like '%$text%' and `audit`=0  order by post_time desc";
-		$data=$mysql->queryAll($sql);
+		$data=json_decode($mysql->queryAll($sql));
 	}
 	/* 分页 */
 	/* $data=array_slice($data,0,6); 取数组第0个元素（包括第0）往后6个元素*/
@@ -88,13 +89,14 @@
 		<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
 	</header>
 	<body>
-		<?php include './header.html' ?>
+		<!-- <?php //include '../header.html' ?> -->
+		<?php include 'manageWholePage.html' ?>
 		<!-- 搜索 -->
 		<div id="select">
 			<div class="col-md-8 col-sm-0 col-xs-0"></div>
 			<form action="" method="get">
 			<div class="input-group col-md-4 col-sm-4 col-xs-4">
-				<input type="text" class="form-control" placeholder="搜索..." name="select">
+				<input type="text" style="position:static" class="form-control" placeholder="搜索..." name="select">
 				<span class="input-group-btn">
 				 	<button class="btn btn-default" type="submit">查询</button>
 				</span>
@@ -115,14 +117,14 @@
 				<tbody>
 					<?php foreach($data as $value){ ?>
 					<tr>
-						<td><?php echo $value['post_module_name']?></td>
-						<td><p><?php echo $value['post_title']?></p></td>
-						<td><?php echo $value['post_user_name']?></td>
-						<td><?php echo $value['post_time']?></td>
+						<td><?php echo $value->post_module_name;?></td>
+						<td><p><?php echo $value->post_title;?></p></td>
+						<td><?php echo $value->post_user_name;?></td>
+						<td><?php echo $value->post_time;?></td>
 						<td>
-							<a href="###" onclick="look(<?php echo $value['id'] ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
-							<a href="###" onclick="pass(<?php echo $value['id']?>)">审核通过</a>
-							<a href="###" onclick="update(<?php echo $value['id'] ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
+							<a href="###" onclick="look(<?php echo $value->id; ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
+							<a href="###" onclick="pass(<?php echo $value->id;?>)">审核通过</a>
+							<a href="###" onclick="update(<?php echo $value->id; ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
 						</td>
 					</tr>
 					<?php } ?>
@@ -240,16 +242,16 @@
 				data:{id:id,op:3},
 				success: function(msg){
 					var data=JSON.parse(msg);
-					$("#post_title").html(data['post_title']);
-					if(data['post_module_type']==1){
+					$("#post_title").html(data->post_title；);
+					if(data->post_module_type ==1){
 						$("#post_module_type").text('_专题区_');
-					}else if(data['post_module_type']==2){
+					}else if(data ->post_module_type==2){
 						$("#post_module_type").text('_学习区_');
-					}else if(data['post_module_type']==3){
+					}else if(data->post_module_type==3){
 						$("#post_module_type").text('_服务区_');
 					}
 					$("#post_module_name").text("所属模块："+data['post_module_name']);
-					$("#post_comment").html(data['post_comment']);
+					$("#post_comment").html(data->post_comment);
 					
 					$("#id").val(id);
 					$("#pass").attr("onclick","pass("+id+")");//动态设置模态框按钮的形参值
