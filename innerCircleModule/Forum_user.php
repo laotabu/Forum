@@ -689,7 +689,7 @@
 						window.location.href="login.html";
 					}else{
 						var data=JSON.parse(msg);
-						$("#u_name").text(data['u_name']);
+						$("#username").text(data['u_name']);
 						if (data['u_image']!=null) {
 							$(".user_item li img").attr('src',data['u_image']);
 						}	
