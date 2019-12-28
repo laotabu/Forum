@@ -4,46 +4,43 @@
 	$pach= $_SERVER['DOCUMENT_ROOT'];
 	include $pach.'/Forum/utils/MYSQL.php';
 	//include $pach.'/Forum/innerCircleModule/Forum_post_item_service.php';
+	session_start();
+	if(isset($_SESSION['u_id'])){
+		$comment_user_id=$_SESSION['u_id'];
+	}else{
+		header("Location:login.html");
+	}
+
+
 	$Id=$_GET['Id'];
 	$mysql=new Mysql();
 	
 	
 	/* 数据查询 */
 	//点击的帖子数据
-	$sql="select * from post where Id='$Id'";
-	$post=$mysql->exec($sql);
+	$globalPostData=$mysql->exec("select * from post where Id='$Id'");
 	/* 判断帖子是否过审 */
-	if($post['audit']==0||$post['audit_result']==0){
+	if($globalPostData['audit']==0||$globalPostData['audit_result']==0){
 		exit("该贴未审核或者审核未通过！");
 	}
-	/*链接商品的数据*/
-	/*$post_id=$post['Id'];
-	$sql="select * from `commodity` where post_id=$post_id and `audit`=1 ORDER BY `create_time` desc limit 1";
-	$product_link=$mysql->exec($sql);
-	if($product_link){
-		$product_id=$product_link['id'];//product_id==n -> 所链接商品的id为 n
-	}else{
-		$product_id=0; //product_id==0 -> 没有商品链接上 （帖子下边判断是否存在product_id而渲染a标签  144）
-	}*/
 
-	$u_id=$post['post_user_id'];
-	$sql="select * from user where u_id=$u_id";
-	$user=$mysql->exec($sql);
-	$sql="select * from comment where post_id='$Id' and grade=1";
-	$comment_one=$mysql->queryAll($sql);
+	$u_id=$globalPostData['post_user_id'];
+	$post_user=$mysql->exec("select * from user where u_id=$u_id");
+
+
+	$comment_one=$mysql->queryAll("select * from comment where post_id='$Id' and grade=1");
 	$comment_one=json_decode($comment_one);
 
-
-	$sql="select * from comment where post_id='$Id' and grade=2";
-	$comment_two=$mysql->queryAll($sql);
-
+	$comment_two=$mysql->queryAll("select * from comment where post_id='$Id' and grade=2");
 	$comment_two=json_decode($comment_two);
-	$sql="select * from comment where post_id='$Id' and grade=3 order by create_time";
 
-	$comment_three=$mysql->queryAll($sql);
+	$comment_three=$mysql->queryAll("select * from comment where post_id='$Id' and grade=3 order by comment_time");
 	$comment_three=json_decode($comment_three);
+
+
+	
 	/* 判断看帖用户是否已对该帖点赞 */
-	$praised_post_id=$post['Id'];
+	$praised_post_id=$globalPostData['Id'];
 	$sql="select * from praise where u_id=$u_id and praised_post_id=$praised_post_id";
 	$result=$mysql->exec($sql);
 	if($result){
@@ -103,116 +100,114 @@
 		<div class="content_body">
 			<div class="content_template">
 				<div class="template_left">
-					<div class="img" ><img src="<?php echo $user['u_image'] ?>" alt="用户头像"></div>
+					<div class="img" ><img src="<?php echo $post_user['u_image'] ?>" alt="用户头像"></div>
 					<div class="text">
-						<p><?php echo $user['u_name']?></p>
-						<p>性别：<?php echo $user['u_sex']?></p>
-						<p>累计获赞：<?php echo $user['u_hot']?></p>
+						<p><?php echo $post_user['u_name']?></p>
+						<p>性别：<?php echo $post_user['u_sex']?></p>
+						<p>累计获赞：<?php echo $post_user['u_hot']?></p>
 					</div>
 				</div>
 				<div class="template_right">
 					<div class="title">
 						<h3>
-							<?php echo $post['post_title']?>
-							<a href="#" id="inform" onclick="inform(<?php echo $post['Id'] ?>)">举报该贴</a>
+							<?php echo $globalPostData['post_title']?>
+							<a href="#" id="inform" onclick="inform(<?php echo $globalPostData['Id'] ?>)">举报该贴</a>
 						</h3>
 					</div>
 					
 					<div class="content">
-						<?php echo $post['post_comment']?>
+						<?php echo $globalPostData['post_comment']?>
 					</div>
 					<div class="img <?php if($praise==1)echo 'is_praise'?>" title="点赞+1" id="praise"></div>
-					<span class="praise_sum"><?php echo $post['post_hot'] ?></span>
+					<span class="praise_sum"><?php echo $globalPostData['post_hot'] ?></span>
 					<div class="bottom">
-						<span class="create_time"><?php echo $post['post_time']?></span>&nbsp;&nbsp;
+						<span class="create_time"><?php echo $globalPostData['post_time']?></span>&nbsp;&nbsp;
 						<a href="#container" >回复</a>
 					</div>
 
-					<!--<span class="link">
-						 根据product_id 判断是否有链接商品 
-						<?php if($product_id!=0){?>
-							<a href='Forum_product_info.php?id=<?php echo $product_id ?>'>> 商品链接</a>
-						<?php } ?>
-					</span>-->
+
 				</div>
 			</div>
 			<!-- 板块 -->
 			<?php 
-			foreach($comment_one as $value){ 
+			foreach($comment_one as $first_comment_data){ 
 
-				$u_id=$value->{'u_id'};
-				$sql="select * from user where u_id=$u_id";
-				$user=$mysql->exec($sql);
+				$comment_user_id=$first_comment_data->{'comment_user_id'};
+				/* 找出评价的那个人*/
+				$first_comment_user=$mysql->exec("select * from user where u_id=$comment_user_id");
 
 			?>
-			<div class="content_template" id="template_<?php echo $value->{'id'} ?>"><!-- id作为动态的 锚点 -->
+			<div class="content_template" id="template_<?php echo $first_comment_data->{'id'} ?>"><!-- id作为动态的 锚点 -->
 				<div class="template_left">
 					<div class="template_left">
-						<div class="img" onclick="go(<?php echo $user['u_id'] ?>)">
-							<img src="<?php echo $user['u_image']?>" alt="用户头像"></div>
+
+						<div class="img" onclick="go(<?php echo $first_comment_user['u_id'] ?>)">
+							<img src="<?php echo $first_comment_user['u_image']?>" alt="用户头像">			
+						</div>
 						<div class="text">
-							<p><?php echo $user['u_name']?></p>
-							<p>性别：<?php echo $user['u_sex']?></p>
-							<p>累计获赞：<?php echo $user['u_hot']?></p>
+							<p><?php echo $first_comment_user['u_name']?></p>
+							<p>性别：<?php echo $first_comment_user['u_sex']?></p>
+							<p>累计获赞：<?php echo $first_comment_user['u_hot']?></p>
 						</div>
 					</div>
 				</div>
 				<div class="template_right">
 					<div class="content">
-						<?php echo $value->{'content'}?>
+						<?php echo $first_comment_data->{'content'}?>
 					</div>
 					<div class="bottom">
 						<span class="create_time">
-							<?php echo $value->{'create_time'}?>
+							<?php echo $first_comment_data->{'comment_time'}?>
 						</span>&nbsp;&nbsp;
 						<!-- 查询是否有二级评论 若没有 创建回复按钮  -->
 						<?php	
-						$a=$value->{'id'};
-						$sql="select COUNT(*) as sum from comment where father_id='$a' and (grade=2 or grade=3)";
-							$result=$mysql->exec($sql);
-							if($result['sum']==0){
+						$temporyParm=$first_comment_data->{'id'};
+						$multipeCommentCount=$mysql->exec("select COUNT(*) as sum from comment where father_id='$temporyParm' and (grade=2 or grade=3)");
+							if($multipeCommentCount['sum']==0){
 						?>
-						<a href="#0"data-toggle="collapse"data-target="#dome_<?php echo $value->{'id'} ?>">回复</a>&nbsp;&nbsp;
+
+						<a href="#0"data-toggle="collapse"data-target="#dome_$first_comment_data->{'id'} ?>">回复</a>&nbsp;&nbsp;
 						<?php } ?>
-						<a data-toggle="collapse" href=".tow_<?php echo $value->{'id'} ?>" aria-expanded="true" >
+						<a data-toggle="collapse" href=".tow_<?php echo $first_comment_data->{'id'} ?>" aria-expanded="true" >
 							收起回复
 						</a>
+
 					</div>
-					<div class="collapse"id="dome_<?php echo $value->{'id'} ?>">
-						<form action="" method="post">
-								<input type="hidden" name="u_id" value="<?php echo $user['u_id'] ?>">
-								<input type="hidden" name="father_id" value="<?php echo $value->{'id'}?>">
-								<input type="hidden" name="post_id" value="<?php echo $value->{'post_id'}?>">
-								<input type="hidden" name="reply_u_id" value="<?php echo $value->{'id'}?>">
+					<div class="collapse"id="dome_<?php echo $first_comment_data->{'id'} ?>">
+						<form action="Forum_post_item_service.php" method="post">
+								<!--<input type="hidden" name="comment_user_id" value="<?php echo $comment_user_id ?>">-->
+								<input type="hidden" name="father_id" value="<?php echo $first_comment_data->{'id'}?>">
+								<input type="hidden" name="post_id" value="<?php echo $first_comment_data->{'post_id'}?>">
+								<input type="hidden" name="reply_u_id" value="<?php echo $first_comment_data->{'comment_user_id'}?>">
 								<input type="hidden" name="grade" value="2">
 								<textarea class="form-control" rows="3" name="content" placeholder="回复..."></textarea>
 								<button class="btn btn-default btn-sm float_right" role="button" type="submit">发送</button>
 						</form>
 					</div>
 					<!-- 二级评论 -->
-					<?php foreach($comment_two as $value1){
-						if($value1->{'father_id'}==$value->{'id'}){
+					<?php foreach($comment_two as $second_comment_data){
+						if($second_comment_data->{'father_id'}==$first_comment_data->{'id'}){
 					?>
-					<div class="tow_<?php echo $value->{'id'} ?> comment collapse in" id="">
+					<div class="tow_<?php echo $first_comment_data->{'id'} ?> comment collapse in" id="">
 						<div class="comment_two">
 							<div class="comment_img"><img src="<?php  //通过comment表user_name获取到user表的用户信息
-								$u_name=$value1->{'u_name'};
-								$sql="select * from user where u_name='$u_name'";
-								$userone=$mysql->exec($sql);
+								$comment_user_name=$second_comment_data->{'comment_user_name'};
+								$userone=$mysql->exec("select * from user where u_name='$comment_user_name'");
 								echo $userone['u_image'];
 							 ?>"></div>
 							<div class="text">
-								<span><?php echo $value1->{'u_name'}?></span>&nbsp;:
-								<span><?php echo $value1->{'content'}?></span>
-								<div class="bottom"><span class="create_time"><?php echo $value1->{'create_time'}?></span>&nbsp;&nbsp;
-								<a href="#template_<?php echo $value->{'id'}?>" data-toggle="collapse" data-target="#dome1_<?php echo $value1->{'id'}?>">回复</a></div>
+								<span><?php echo $second_comment_data->{'comment_user_name'}?></span>&nbsp;:
+								<span><?php echo $second_comment_data->{'content'}?></span>
+								<div class="bottom"><span class="create_time"><?php echo $second_comment_data->{'comment_time'}?></span>&nbsp;&nbsp;
+								<a href="#template_<?php echo $first_comment_data->{'id'}?>" data-toggle="collapse" data-target="#dome1_<?php echo $second_comment_data->{'id'}?>">回复</a>
 							</div>
-							<div class="collapse"id="dome1_<?php echo $value1->{'id'}?>">
-								<form action="" method="post">
-										<input type="hidden" name="u_id" value="<?php echo $user['u_id'] ?>">
-										<input type="hidden" name="father_id" value="<?php echo $value1->{'id'}?>">
-										<input type="hidden" name="post_id" value="<?php echo $value1->{'post_id'}?>">
-										<input type="hidden" name="reply_u_id" value="<?php echo $value1->{'u_name'}?>">
+							</div>
+							<div class="collapse"id="dome1_<?php echo $second_comment_data->{'id'}?>">
+								<form action="Forum_post_item_service.php" method="post">
+										<!--<input type="hidden" name="comment_user_id" value="<?php echo $comment_user_id ?>">-->
+										<input type="hidden" name="father_id" value="<?php echo $second_comment_data->{'id'}?>">
+										<input type="hidden" name="post_id" value="<?php echo $second_comment_data->{'post_id'}?>">
+										<input type="hidden" name="reply_u_id" value="<?php echo $second_comment_data->{'comment_user_id'}?>">
 										<input type="hidden" name="grade" value="3">
 										<textarea class="form-control" rows="3" name="content" placeholder="回复..."></textarea>
 										<button class="btn btn-default btn-xs float_right" role="button" type="submit">发送</button>
@@ -221,38 +216,43 @@
 						</div>
 						<!-- 三级评论 -->
 						<?php 
-						$reply_u_id=$value1->{'u_name'};
-						foreach($comment_three as $value2){ 
-							if($value2->{'father_id'}==$value1->{'id'}){
+						//$reply_u_id=$second_comment_data->{'u_id'};
+						foreach($comment_three as $third_comment_data){ 
+
+							if($third_comment_data->{'father_id'}==$second_comment_data->{'id'}){
 						?>
 						<div class="comment_three">
-							<div class="comment_img"><img src="<?php  //通过comment表user_name获取到user表的用户信息
-								$username=$value2->{'u_name'};
-								$sql="select * from user where u_name='$u_name'";
-								$userone=$mysql->exec($sql);
-								echo $userone['u_image'];
-							 ?>"></div>
+							<div class="comment_img">
+								<img src="<?php  //通过comment表user_name获取到user表的用户信息
+									$comment_user_name=$third_comment_data->{'comment_user_name'};
+									$userone=$mysql->exec("select * from user where u_name='$comment_user_name'");
+									
+									echo $userone['u_image'];
+								 ?>">
+							</div>
 							<div class="text">
-								<span><?php echo $value2->{'u_name'}?></span><span>回复</span>
+								<span>
+									<?php echo $third_comment_data->{'comment_user_name'}?>
+								</span>
+								<span>回复</span>
 								<span><?php //通过id查找回复的人的名字
-									$id=$value2->{'reply_u_id'};
-									$sql="select * from user where u_id=$id";
-									$reply_user=$mysql->exec($sql);
+									$temporyParm=$third_comment_data->{'reply_u_id'};
+									$reply_user=$mysql->exec("select * from user where u_id=$temporyParm");
 									echo $reply_user['u_name'];
 									
 								?></span>&nbsp;:
-								<span><?php echo $value2->{'content'}?></span>
-								<div class="bottom"><span class="create_time"><?php echo $value2->{'create_time'}?></span>&nbsp;&nbsp;
-								<a href="#template_<?php echo $value->{'id'}?>"data-toggle="collapse"data-target="#<?php echo 'id_'.$value2->{'id'} ?>">回复</a></div>
+								<span><?php echo $third_comment_data->{'content'}?></span>
+								<div class="bottom"><span class="create_time"><?php echo $third_comment_data->{'comment_time'}?></span>&nbsp;&nbsp;
+								<a href="#template_<?php echo $first_comment_data->{'id'}?>"data-toggle="collapse"data-target="#<?php echo 'id_'.$third_comment_data->{'id'} ?>">回复</a></div>
 							</div>
-							<div class="collapse" id="id_<?php echo $value2->{'id'}?>">
-								<form action="" method="post">
-									<input type="hidden" name="u_id" value="<?php echo $user['u_id'] ?>">
-									<input type="hidden" name="father_id" value="<?php echo $value1->{'id'}?>">
-									<input type="hidden" name="post_id" value="<?php echo $value2->{'post_id'}?>">
-									<input type="hidden" name="reply_u_id" value="<?php echo $value2->{'u_id'}?>">
+							<div class="collapse" id="id_<?php echo $third_comment_data->{'id'}?>">
+								<form action="Forum_post_item_service.php" method="post">
+									<!--<input type="hidden" name="comment_user_id" value="<?php echo $comment_user_id ?>">-->
+									<input type="hidden" name="father_id" value="<?php echo $third_comment_data->{'id'}?>">
+									<input type="hidden" name="post_id" value="<?php echo $third_comment_data->{'post_id'}?>">
+									<input type="hidden" name="reply_u_id" value="<?php echo $third_comment_data->{'comment_user_id'}?>">
 									<input type="hidden" name="grade" value="3">
-									<textarea class="form-control" rows="3" name="comment" placeholder="回复..."></textarea>
+									<textarea class="form-control" rows="3" name="content" placeholder="回复..."></textarea>
 									<button class="btn btn-default btn-xs float_right" role="button" type="submit">发送</button>
 								</form>
 							</div>
@@ -265,13 +265,18 @@
 			<?php } ?>
 		</div>
 		<div class="textarea">
-			<form action="" method="post">
-				<script id="container" name="comment" type="text/plain" style="height: 150px;">
+			<form action="Forum_post_item_service.php" method="post">
+				<script id="container" name="content" type="text/plain" style="height: 150px;">
 				</script>
-				<input type="hidden" name="u_id" value="<?php echo $user['u_id'] ?>">
-				<input type="hidden" name="post_id" value="<?php echo $post['Id']?>">
+				<!--第一项评论者的id，为论坛登陆者本人的id -->
+				<!--<input type="hidden" name="comment_user_id" value="<?php echo $comment_user_id ?>">-->
+				<!--第二项为所评论的帖子的id-->
+				<input type="hidden" name="post_id" value="<?php echo $globalPostData['Id']?>">
+				<!--第三项为所评论的帖子的父级别id-->
 				<input type="hidden" name="father_id" value="0">
-				<input type="hidden" name="reply_u_id" value="<?php echo $post['post_user_name']?>">
+				<!--第四项为所评论的评论发起者的id-->
+				<input type="hidden" name="reply_u_id" value="<?php echo $globalPostData['post_user_id']?>">
+				<!--第五项为评论的帖子的级别-->
 				<input type="hidden" name="grade" value="1">
 				<button class="btn btn-primary btn-block" role="button" type="submit">发送</button>
 			</form>

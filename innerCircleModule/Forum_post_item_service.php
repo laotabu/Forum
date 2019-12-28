@@ -1,26 +1,26 @@
 <?php
 	$pach= $_SERVER['DOCUMENT_ROOT'];
+	date_default_timezone_set("PRC");//设置时区
 	include $pach.'/Forum/utils/MYSQL.php';
 	$mysql=new Mysql();
 	//获取当前用户
 	session_start();
 	if(isset($_SESSION['u_id'])){
-		$u_id=$_SESSION['u_id'];
-		$u_name=$_SESSION['u_name'];
+		$comment_user_id=$_SESSION['u_id'];
+		$comment_user_name=$_SESSION['u_name'];
 	}else{
 		header("Location:../login.html");
 	}
 	
 	if(!empty($_POST)){
-
-			$to_user_id=$_POST['u_id'];
-			
+			//$comment_user_id=$_POST['comment_user_id'];
 			$content=$_POST['content'];
 			$father_id=$_POST['father_id'];
-			$reply_user_id=$_POST['reply_user_id'];
+			$reply_u_id=$_POST['reply_u_id'];
 			$post_id=$_POST['post_id'];
 			$grade=$_POST['grade'];
-			$sql="insert into `comment`(u_id,u_name,content,father_id,grade,post_id,reply_user_id)value('$u_id','$u_name','$content','$father_id','$grade','$post_id','$reply_user_id')";
+			$comment_time = date("Y-m-d h:i:s");
+			$sql="insert into comment(comment_user_id,comment_user_name,content,father_id,grade,post_id,reply_u_id,comment_time)value('$comment_user_id','$comment_user_name','$content','$father_id','$grade','$post_id','$reply_u_id','$comment_time')";
 
 			$result=$mysql->exec($sql);
 			if($result==1){
@@ -31,7 +31,7 @@
 					$post_sum=$data['post_sum'];
 					$post_sum+=1;
 					$addPostSumResult=$mysql->exec("update post set post_sum=$post_sum where Id=$post_id");
-					echo $addPostSumResult;
+					
 					//表user user_sum()+1
 					/*$data=$mysql->exec("select * from user where u_id=$u_id");
 					$u_post_sum=$data['u_post_sum'];
@@ -43,12 +43,12 @@
 					}*/
 					if($addPostSumResult==1){
 						$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-						//header("Location: $referer"); //浏览器跳转
+						header("Location: $referer"); //浏览器跳转
 					}
 
 				}else{
 					$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-					//header("Location: $referer"); //浏览器跳转
+					header("Location: $referer"); //浏览器跳转
 				}
 			}else{
 				echo "出错了！！";
