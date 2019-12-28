@@ -104,7 +104,7 @@
 					<table id="new_table">
 						<script  type="text/html" id="new_table_template">
 							{{each comments}}
-							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.id}}'">
+							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.Id}}'">
 								<td><span>[ 新帖 ]</span></td>
 								<td><p>{{$value.post_title}}</p></td>
 								<td><span>{{$value.post_user_name}}</span></td>
@@ -116,7 +116,7 @@
 					<table id="hot_table">
 						<script  type="text/html" id="hot_table_template">
 							{{each comments}}
-							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.id}}'">
+							<tr onclick="location.href='innerCircleModule/Forum_post_item.php?Id={{$value.Id}}'">
 								<td><span>[ 热门 ]</span></td>
 								<td><p>{{$value.post_title}}</p></td>
 								<td><span>{{$value.post_user_name}}</span></td>
@@ -318,7 +318,9 @@
 					}else{
 						var data=JSON.parse(msg);
 						$("#username").text(data['u_name']);
-						$(".user_item li img").attr('src',"/Forum"+data['u_image'].substr(2));
+						if (data['u_image']!=null) {
+							$(".user_item li img").attr('src',"/Forum"+data['u_image'].substr(2));
+						}
 						$(".user_item .username").text(data['u_name']);						
 					}
 			    },
