@@ -51,6 +51,11 @@
 				//清除密码错误次数
 				$sql="update user set u_passwd_error=0 where u_id='$u_id'";
 				$affectedRows=$mysql->exec($sql);
+				//存储上次登录时间
+				date_default_timezone_set("PRC");//设置时区
+				$login_time = date("Y-m-d h:i:s");
+				$sql="update user set last_login_time='$login_time' where u_id='$u_id'";
+				$mysql->exec($sql);
 				
 				//储存用户会话信息
 				session_start();
@@ -80,6 +85,7 @@
 				
 				$is_enable=$result['is_enable'];
 				$last_login_time=$result['last_login_time'];
+
 				//判断锁定时间
 				if($is_enable==0){
 					//获取当前时间的秒数
