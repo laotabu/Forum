@@ -83,8 +83,8 @@
 	<header>
 		<meta charset="utf-8">
 		<title>管理员界面-帖子举报页</title>
-		<link rel="stylesheet" href="../assets/css/all.css">
-		<link rel="stylesheet" href="../assets/css/module_style.css">
+		<link rel="stylesheet" href="css/all.css">
+		<link rel="stylesheet" href="css/module_style.css">
 		<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 		<script type="text/javascript" src="../assets/js/jquery-1.11.1.js"></script>
 		<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
@@ -120,21 +120,20 @@
 					<?php foreach($data as $value){ ?>
 					<tr>
 						<td><?php echo $value->post_module_name;?></td>
-						<td><p><?php echo $value->post_title; ?></p></td>
-						<td><?php echo $value->post_user_name; ?></td>
+						<td><p><?php echo $value->post_title ?></p></td>
+						<td><?php echo $value->post_user_name ?></td>
 						<td><?php
 							/* 通过举报者id查询用户名字 */
-							$id=$value->Inform;
-							$sql="select u_name from `user` where Id=$id";
-							$inform_user=$mysql->exec($sql);
-							echo $inform_user['u_name'];
-							// print_r($inform_user);
+							$id=$value->inform;
+							$sql="select username from `user` where id=$id";
+							$inform_user=$mysql->queryOne($sql);
+							echo $inform_user->username;
 						?></td>
 						<td><?php echo $value->post_time?></td>
 						<td>
-							<a href="###" onclick="look(<?php echo $value->post_module_id?>)" data-toggle="modal" data-target="#myModal">详情</a>
-							<a href="###" onclick="update(<?php echo $value->post_module_id ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
-							<a href="###" onclick="revocation(<?php echo $value->post_module_id ?>)">撤销举报</a>
+							<a href="###" onclick="look(<?php echo $value['id'] ?>)" data-toggle="modal" data-target="#myModal">详情</a>
+							<a href="###" onclick="update(<?php echo $value['id'] ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
+							<a href="###" onclick="revocation(<?php echo $value['id']?>)">撤销举报</a>
 						</td>
 					</tr>
 					<?php } ?>
@@ -195,7 +194,7 @@
 		      </div>
 		      <div class="modal-body" style="text-align: center;">
 		      	<!--模态框内容-->
-		      		<form id="form" action="manage_module_core.php">
+		      		<form id="form" action="update.php">
 						<input type="hidden" id="id" name="id">
 						<input type="hidden" name="op" value='2'>
 						禁止原因：<select name="reason">
@@ -243,24 +242,24 @@
 		//帖子查看详情
 		function look(id){
 			$.ajax({
-				url:"manage_module_core.php",
+				url:"update.php",
 				type:"POST",
 				data:{id:id,op:3},
 				success: function(msg){
 					var data=JSON.parse(msg);
-					$("#post_title").html(data['post_title']);
-					if(data['post_module_type'] ==1){
+					$("#post_title").html(data->post_title);
+					if(data->post_module_type==1){
 						$("#post_module_type").text('_专题区_');
-					}else if(data['post_module_type'] ==2){
+					}else if(data->post_module_type==2){
 						$("#post_module_type").text('_学习区_');
-					}else if(data['post_module_type']==3){
+					}else if(data->post_module_type==3){
 						$("#post_module_type").text('_服务区_');
 					}
-					$("#post_module_name").text("所属模块："+data['post_module_name']);
-					$("#post_comment").html(data['post_comment']);
+					$("#post_module_name").text("所属模块："+data->post_module_name);
+					$("#post_comment").html(data->post_comment);
 					
 					$("#id").val(id);
-					$("#remove").attr("onclick","update("+id+")");//动态设置模态框按钮的形参值
+					$("#remove").attr("onclick","remove("+id+")");//动态设置模态框按钮的形参值
 
 				}
 			})
@@ -268,13 +267,13 @@
 		//撤销举报
 		function revocation(id){
 			$.ajax({
-				url:"manage_module_core.php",
+				url:"./update.php",
 				type:"POST",
 				data:{op:'7',id:id},
 				success: function(msg){
 					if(msg==1){
 						alert("撤销成功！");
-						window.location.href="manage_informPost.php";
+						window.location.href="./informPost.php";
 					}else{
 						alert("数据库出错！");
 					}
