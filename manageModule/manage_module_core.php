@@ -18,7 +18,7 @@
 		}else if($op==2){ //帖子禁止
 			$id=$_GET['id'];
 			$reason=$_GET['reason'];
-			$sql="update post set audit_result=10,audit=1,reason='$reason' where '$reason' where post_module_id ='$id' ";
+			$sql="update post set audit_result=10,audit=1,reason='$reason' where post_module_id ='$id' ";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
