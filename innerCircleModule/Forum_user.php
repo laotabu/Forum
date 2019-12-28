@@ -136,7 +136,7 @@
 				<div class="img">
 					<img src="<?php 
 						if($user['u_image']=='')
-							echo '../assets/img/defaultHead.jpg';
+							echo '../assets/img/head.png';
 						else 
 							echo $user['u_image'];
 					?>" alt="头像">
@@ -690,7 +690,9 @@
 					}else{
 						var data=JSON.parse(msg);
 						$("#u_name").text(data['u_name']);
-						$(".user_item li img").attr('src',data['u_image']);
+						if (data['u_image']!=null) {
+							$(".user_item li img").attr('src',data['u_image']);
+						}	
 						$(".user_item .username").text(data['u_name']);
 					}
 				},

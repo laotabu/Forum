@@ -32,10 +32,14 @@
 	$sql="select * from comment where post_id='$Id' and grade=1";
 	$comment_one=$mysql->queryAll($sql);
 	$comment_one=json_decode($comment_one);
+
+
 	$sql="select * from comment where post_id='$Id' and grade=2";
 	$comment_two=$mysql->queryAll($sql);
+
 	$comment_two=json_decode($comment_two);
 	$sql="select * from comment where post_id='$Id' and grade=3 order by create_time";
+
 	$comment_three=$mysql->queryAll($sql);
 	$comment_three=json_decode($comment_three);
 	/* 判断看帖用户是否已对该帖点赞 */
@@ -86,19 +90,20 @@
 			<li><a href="innerCore.php?type=4">我的帖子</a></li>
 			<li><a href="Forum_user.php">个人资料</a></li>
 			<li><a href="Forum_post.php">发帖</a></li>
+			<li><a href="javascript:history.back(-1)">返回</a></li>
 		</ul>
 	</div>
-	<div class="path">
+	<!--<div class="path">
 		<a href="javascript:history.back(-1)">返回</a>
 		<a href="Forum_post.php">发帖</a>
 		<a href="#container">回复</a>
-	</div>
+	</div>-->
 	<!-- content模块 -->
 	<div id="content" class="type_area">
 		<div class="content_body">
 			<div class="content_template">
 				<div class="template_left">
-					<div class="img" onclick="go(<?php echo $user['u_id'] ?>)"><img src="<?php echo $user['u_image'] ?>" alt="用户头像"></div>
+					<div class="img" ><img src="<?php echo $user['u_image'] ?>" alt="用户头像"></div>
 					<div class="text">
 						<p><?php echo $user['u_name']?></p>
 						<p>性别：<?php echo $user['u_sex']?></p>
@@ -118,7 +123,10 @@
 					</div>
 					<div class="img <?php if($praise==1)echo 'is_praise'?>" title="点赞+1" id="praise"></div>
 					<span class="praise_sum"><?php echo $post['post_hot'] ?></span>
-					<div class="bottom"><span class="create_time"><?php echo $post['post_time']?></span>&nbsp;&nbsp;<a href="#container" >回复</a></div>
+					<div class="bottom">
+						<span class="create_time"><?php echo $post['post_time']?></span>&nbsp;&nbsp;
+						<a href="#container" >回复</a>
+					</div>
 
 					<!--<span class="link">
 						 根据product_id 判断是否有链接商品 
@@ -131,15 +139,17 @@
 			<!-- 板块 -->
 			<?php 
 			foreach($comment_one as $value){ 
-			$u_id=$value->{'u_id'};
-			$sql="select * from user where u_id=$u_id";
-			$user=$mysql->exec($sql);
+
+				$u_id=$value->{'u_id'};
+				$sql="select * from user where u_id=$u_id";
+				$user=$mysql->exec($sql);
 
 			?>
 			<div class="content_template" id="template_<?php echo $value->{'id'} ?>"><!-- id作为动态的 锚点 -->
 				<div class="template_left">
 					<div class="template_left">
-						<div class="img" onclick="go(<?php echo $user['u_id'] ?>)"><img src="<?php echo $user['u_image']?>" alt="用户头像"></div>
+						<div class="img" onclick="go(<?php echo $user['u_id'] ?>)">
+							<img src="<?php echo $user['u_image']?>" alt="用户头像"></div>
 						<div class="text">
 							<p><?php echo $user['u_name']?></p>
 							<p>性别：<?php echo $user['u_sex']?></p>
@@ -152,10 +162,13 @@
 						<?php echo $value->{'content'}?>
 					</div>
 					<div class="bottom">
-						<span class="create_time"><?php echo $value->{'create_time'}?></span>&nbsp;&nbsp;
+						<span class="create_time">
+							<?php echo $value->{'create_time'}?>
+						</span>&nbsp;&nbsp;
 						<!-- 查询是否有二级评论 若没有 创建回复按钮  -->
-						<?php	$a=$value->{'id'};
-						$sql="select COUNT(*) as sum from comment where post_id=2 and father_id='$a' and (grade=2 or grade=3)";
+						<?php	
+						$a=$value->{'id'};
+						$sql="select COUNT(*) as sum from comment where father_id='$a' and (grade=2 or grade=3)";
 							$result=$mysql->exec($sql);
 							if($result['sum']==0){
 						?>
@@ -291,15 +304,15 @@
 				$.ajax({
 					url:"Forum_post_item_service.php",
 					type:"get",
-					data:{'post_id':$("#post_id").val(),'u_id':$("#u_id").val(),'op':1},
+					data:{'praised_post_id':$("#post_id").val(),'praised_user_id':$("#u_id").val(),'op':1},
 					success: function(msg){
 						if(msg==0){
 							alert("您已点赞。");
 						}else if(msg==1){
 							alert("点赞成功！");
-							location.href="Forum_post_item.php?id="+$("#post_id").val();
+							location.href="Forum_post_item.php?Id="+$("#post_id").val();
 						}else{
-							alert(msg);
+							alert("服务繁忙，请稍后再试");
 						}
 					},
 					error:function(e){
@@ -318,7 +331,9 @@
 					}else{
 						var data=JSON.parse(msg);
 						$("#username").text(data['u_name']);
-						$(".user_item li img").attr('src',data['u_image']);
+						if (data['u_image']!=null) {
+							$(".user_item li img").attr('src',data['u_image']);
+						}	
 						$(".user_item .username").text(data['u_name']);
 					}
 				},
@@ -342,7 +357,7 @@
 		});
 		//点击头像触发事件
 		function go(post_u_id){
-			window.location.href="Forum_post_user.php?post_u_id="+post_u_id;
+			window.location.href="Forum_user.php?u_id="+post_u_id;
 		}
 		/* 举报 */
 		function inform(id){
