@@ -38,7 +38,7 @@ date_default_timezone_set("PRC");//设置时区
 						echo '手机号已被注册，请重新输入！';
 						exit;
 					}else{
-						$sql="insert into user(u_id,u_name,u_passwd,u_email,u_phone,u_type,u_create_time) values ('$u_id','$u_name','$u_passwd','$u_email','$u_phone','$u_type','$u_create_time')";
+						$sql="insert into user(u_id,u_name,u_passwd,u_email,u_phone,u_type,u_create_time,u_image) values ('$u_id','$u_name','$u_passwd','$u_email','$u_phone','$u_type','$u_create_time','../assets/img/head.png')";
 						if($mysql->exec($sql)>0){
 							echo 1;
 						}else{
