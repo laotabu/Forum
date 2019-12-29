@@ -67,8 +67,8 @@
 </head>
 <body>
 	<!-- 给ajax调用 -->
-	<input id="post_id" type="hidden" value="<?php echo $post['Id'] ?>">
-	<input id="u_id" type="hidden" value="<?php echo $user['u_id'] ?>">
+	<input id="post_id" type="hidden" value="<?php echo $globalPostData['Id'] ?>">
+	<input id="u_id" type="hidden" value="<?php echo $comment_user_id ?>">
 	<?php include "../header.html" ?><!-- 导入头部 -->
 	<!-- 导航栏 -->
 	<div id="nav" class="type_area">
