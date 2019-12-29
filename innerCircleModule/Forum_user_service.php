@@ -22,27 +22,9 @@
 			}else{
 				echo 2;
 			}
-		}/*else if($op==2){
+		}else if($op==4){/* 帖子举报 */
 			$id=$_GET['id'];
-			$sql="delete from `commodity` where id=$id";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 2;
-			}
-		}else if($op==3){ 商品举报 
-			$id=$_GET['id'];
-			$sql="update `commodity` set inform=$u_id where id=$id";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 2;
-			}
-		}*/else if($op==4){/* 帖子举报 */
-			$id=$_GET['id'];
-			$sql="update `post` set inform=$u_id where id=$id";
+			$sql="update post set inform=$u_id where Id=$id";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				echo 1;
@@ -131,114 +113,6 @@
 					location.href='Forum_user.php';
 				</script>";
 			}
-		}/*else if($op==3){//发布商品
-			
-			if(isset($_FILES['commodity_cover_image'])&&$_FILES['commodity_cover_image']['error']==0){
-				//判断上传的文件格式
-				if(!($_FILES['commodity_cover_image']['type']=="image/png"||$_FILES['commodity_cover_image']['type']=="image/jpg")){
-					exit("封面格式不正确！请重新上传！");
-				};
-				$commodity_title=$_POST['commodity_title'];
-				$commodity_price=$_POST['commodity_price'];
-				$commodity_details=$_POST['commodity_details'];
-				$commodity_type=$_POST['commodity_type'];
-				$pickup_way=$_POST['pickup_way'];
-				$post_id=$_POST['post_id'];
-				
-				$path='./assets/commodity_images/'.time().'.png';
-				if(move_uploaded_file($_FILES['commodity_cover_image']['tmp_name'], $path)){
-						//插入数据
-						$sql="insert into `commodity`(`u_id`,`commodity_title`,`commodity_cover_image`,`commodity_price`,`commodity_details`,`commodity_type`,`pickup_way`,`post_id`)value('$u_id','$commodity_title','$path','$commodity_price','$commodity_details','$commodity_type','$pickup_way','$post_id')";
-						$result=$mysql->exec($sql);
-						if($result==1){
-							echo "<script>
-								alert('发布成功，等待管理员审核。');
-								location.href='Forum_user.php';
-							</script>";
-						}else{
-							echo "<script>
-								alert('数据库出错！');
-								location.href='Forum_user.php';
-							</script>";
-						}
-				}
-			}else{
-				echo "请上传封面！";
-			}
-		}else if($op==4){//返回点击目标的商品信息
-			$id=$_POST['id'];
-			$sql="select * from `commodity` where id = $id";
-			$data=$mysql->exec($sql);
-			echo json_encode($data);
-		}else if($op==5){//编辑商品
-			if(isset($_FILES['commodity_cover_image'])&&$_FILES['commodity_cover_image']['error']==0){ //有上传封面
-				//判断上传的文件格式
-				if(!($_FILES['commodity_cover_image']['type']=="image/png"||$_FILES['commodity_cover_image']['type']=="image/jpeg")){
-					exit("封面格式不正确！请重新上传！");
-				};
-				$commodity_id=$_POST['id'];
-				$commodity_title=$_POST['commodity_title'];
-				$commodity_price=$_POST['commodity_price'];
-				$commodity_details=$_POST['commodity_details'];
-				$commodity_type=$_POST['commodity_type'];
-				$pickup_way=$_POST['pickup_way'];
-				$post_id=$_POST['post_id'];
-				
-				$path='./assets/commodity_images/'.time().'.png';
-				if(move_uploaded_file($_FILES['commodity_cover_image']['tmp_name'], $path)){
-						//更新数据
-						$sql="update `commodity` set commodity_title='$commodity_title',commodity_price='$commodity_price',commodity_details='$commodity_details',pickup_way='$pickup_way',commodity_type='$commodity_type',commodity_cover_image='$path',post_id='$post_id' where id ='$commodity_id'";
-						$result=$mysql->exec($sql);
-						if($result==1){
-							//修改审核
-							$sql="update `commodity` set audit='2' where id ='$commodity_id';";
-							$result=$mysql->exec($sql);
-							echo "<script>
-								alert('修改成功，等待管理员审核。');
-								location.href='Forum_user.php';
-							</script>";
-						}else{
-							echo "<script>
-								alert('数据库出错！修改失败');
-								location.href='Forum_user.php';
-							</script>";
-						} 
-				}
-			}else{//没有上传封面
-				$commodity_id=$_POST['id'];
-				$commodity_title=$_POST['commodity_title'];
-				$commodity_price=$_POST['commodity_price'];
-				$commodity_details=$_POST['commodity_details'];
-				$commodity_type=$_POST['commodity_type'];
-				$pickup_way=$_POST['pickup_way'];
-				$post_id=$_POST['post_id'];
-
-				$sql="update `commodity` set commodity_title='$commodity_title',commodity_price='$commodity_price',commodity_details='$commodity_details',pickup_way='$pickup_way',commodity_type='$commodity_type',post_id='$post_id' where id ='$commodity_id'";
-						$result=$mysql->exec($sql);
-						if($result==1){
-							//修改审核
-							$sql="update `commodity` set audit='2' where id ='$commodity_id';";
-							$result=$mysql->exec($sql);
-							echo "<script>
-								alert('修改成功，等待管理员审核。');
-								location.href='Forum_user.php';
-							</script>";
-						}else{
-							echo "<script>
-								alert('数据未更新！');
-								location.href='Forum_user.php';
-							</script>";
-						} 
-			}
-		}else if($op==6){
-			$id=$_POST['id'];
-			$sql="update `commodity` set `commodity_buy`=$u_id where id=$id";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 2;
-			} 
-		}*/
+		}
 	}
 ?>

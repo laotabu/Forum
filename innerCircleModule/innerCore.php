@@ -172,14 +172,13 @@
 						<td><?php echo $value->{'post_sum'}?></td>
 						<?php 
 							$post_id=$value->{"Id"};
-							$sql="select * from comment where post_id='$post_id' order by post_time desc limit 0, 1 ";
+							$sql="select * from comment where post_id='$post_id' order by comment_time desc limit 0, 1 ";
 							$result=$mysql->exec($sql);
 
-						?>
-						
+						?>	
 						<td>
-							<p class="username"><?php echo isset($result->{'user_name'})?$result->{'user_name'}:"-"?></p>
-							<p><?php echo isset($result->{'post_time'})?$result->{'post_time'}:"-"?><p>
+							<p class="username"><?php echo isset($result['comment_user_name'])?$result['comment_user_name']:"-"?></p>
+							<p><?php echo isset($result['comment_time'])?$result['comment_time']:"-"?><p>
 						</td>
 						
 						<td><?php echo $value->{'post_time'}?></td>
