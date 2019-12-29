@@ -132,9 +132,9 @@
 			<?php 
 			foreach($comment_one as $first_comment_data){ 
 
-				$comment_user_id=$first_comment_data->{'comment_user_id'};
+				$user_id=$first_comment_data->{'comment_user_id'};
 				/* 找出评价的那个人*/
-				$first_comment_user=$mysql->exec("select * from user where u_id=$comment_user_id");
+				$first_comment_user=$mysql->exec("select * from user where u_id=$user_id");
 
 			?>
 			<div class="content_template" id="template_<?php echo $first_comment_data->{'id'} ?>"><!-- id作为动态的 锚点 -->
@@ -166,7 +166,10 @@
 							if($multipeCommentCount['sum']==0){
 						?>
 
-						<a href="#0"data-toggle="collapse"data-target="#dome_$first_comment_data->{'id'} ?>">回复</a>&nbsp;&nbsp;
+						<a href="#0"data-toggle="collapse" 
+							data-target="#dome_<?php echo $first_comment_data->{'id'}?>" >回复
+
+						</a>&nbsp;&nbsp;
 						<?php } ?>
 						<a data-toggle="collapse" href=".tow_<?php echo $first_comment_data->{'id'} ?>" aria-expanded="true" >
 							收起回复
@@ -368,7 +371,7 @@
 		function inform(id){
 			if(confirm("是否举报该帖子？")){
 				$.ajax({
-					url:"innerCore.php",
+					url:"Forum_user_service.php",
 					type:"GET",
 					data:{op:'4',id:id},
 					success: function(msg){
