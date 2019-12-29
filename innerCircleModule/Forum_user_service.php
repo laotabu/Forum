@@ -15,8 +15,18 @@
 		$op=isset($_GET['op'])?$_GET['op']:'';
 		if($op==1){//删除帖子
 			$post_id=$_GET['id'];
+			//对应专区 贴子数减一
+			$sql="select post_module_name from post where Id=$post_id";
+			$module_name=$mysql->exec($sql);
+			$module_name = $module_name['post_module_name'];			
+
+			$sql="update module set post_sum = post_sum - 1  where module_name='$module_name'";
+			$mysql->exec($sql);
+			//删除该贴
 			$sql="delete from post where Id=$post_id";
 			$result=$mysql->exec($sql);
+
+
 			if($result==1){
 				echo 1;
 			}else{
