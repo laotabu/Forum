@@ -34,7 +34,12 @@
 				$data=$mysql->exec($sql);
 				$post_module_name=$data['module_name'];
 				$module_post_sum=$data['post_sum']+1;
-				$sql="insert into post(post_title,post_comment,post_user_name,post_user_id,post_module_type,post_module_id,post_module_name,post_cover_image)values('$post_title','$post_comment','$post_user_name','$post_user_id','$post_module_type','$post_module_id','$post_module_name','$path')";
+				//插入发帖时间
+				date_default_timezone_set("PRC");//设置时区
+				$post_time = date("Y-m-d h:i:s");
+
+
+				$sql="insert into post(post_title,post_comment,post_user_name,post_user_id,post_module_type,post_module_id,post_module_name,post_cover_image,post_time,audit)values('$post_title','$post_comment','$post_user_name','$post_user_id','$post_module_type','$post_module_id','$post_module_name','$path','$post_time',0)";
 				$result=$mysql->exec($sql);
 				if($result==1){
 					//module 发帖数+1
