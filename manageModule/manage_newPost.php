@@ -82,8 +82,8 @@
 	<header>
 		<meta charset="utf-8">
 		<title>管理员界面-已发布帖子管理</title>
-		<link rel="stylesheet" href="css/all.css">
-		<link rel="stylesheet" href="css/module_style.css">
+		<link rel="stylesheet" href="../assets/css/all.css">
+		<link rel="stylesheet" href="../assets/css/module_style.css">
 		<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 		<script type="text/javascript" src="../assets/js/jquery-1.11.1.js"></script>
 		<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
@@ -122,9 +122,9 @@
 						<td><?php echo $value->post_user_name;?></td>
 						<td><?php echo $value->post_time;?></td>
 						<td>
-							<a href="###" onclick="look(<?php echo $value->id; ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
-							<a href="###" onclick="pass(<?php echo $value->id;?>)">审核通过</a>
-							<a href="###" onclick="update(<?php echo $value->id; ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
+							<a href="###" onclick="look(<?php echo $value->Id; ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
+							<a href="###" onclick="pass(<?php echo $value->Id;?>)">审核通过</a>
+							<a href="###" onclick="update(<?php echo $value->Id; ?>)" data-toggle="modal" data-target="#myModal_2">禁止</a>
 						</td>
 					</tr>
 					<?php } ?>
@@ -186,7 +186,7 @@
 		      </div>
 		      <div class="modal-body" style="text-align: center;">
 		      	<!--模态框内容-->
-		      		<form id="form" action="update.php">
+		      		<form id="form" action="manage_module_core.php">
 						<input type="hidden" id="id" name="id">
 						<input type="hidden" name="op" value='20'>
 						禁止原因：<select name="reason">
@@ -232,29 +232,30 @@
 			$("#id").val(id);
 		}
 		function pass(id){
-			window.location.href="update.php?op=6&id="+id;
+			window.location.href="manage_module_core.php?op=6&id="+id;
 		}
 		//帖子查看详情
 		function look(id){
 			$.ajax({
-				url:"update.php",
+				url:"manage_module_core.php",
 				type:"POST",
 				data:{id:id,op:3},
 				success: function(msg){
 					var data=JSON.parse(msg);
-					$("#post_title").html(data->post_title；);
-					if(data->post_module_type ==1){
+					$("#post_title").html(data['post_title']);
+					if(data['post_module_type'] ==1){
 						$("#post_module_type").text('_专题区_');
-					}else if(data ->post_module_type==2){
+					}else if(data['post_module_type'] ==2){
 						$("#post_module_type").text('_学习区_');
-					}else if(data->post_module_type==3){
+					}else if(data['post_module_type']==3){
 						$("#post_module_type").text('_服务区_');
 					}
 					$("#post_module_name").text("所属模块："+data['post_module_name']);
-					$("#post_comment").html(data->post_comment);
+					$("#post_comment").html(data['post_comment']);
 					
 					$("#id").val(id);
-					$("#pass").attr("onclick","pass("+id+")");//动态设置模态框按钮的形参值
+					$("#remove").attr("onclick","update("+id+")");//动态设置模态框按钮的形参值
+					$("#pass").attr("onclick","pass("+id+")");
 				}
 			})
 		}

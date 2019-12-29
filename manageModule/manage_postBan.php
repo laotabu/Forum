@@ -81,8 +81,8 @@
 	<header>
 		<meta charset="utf-8">
 		<title>管理员界面-禁止记录</title>
-		<link rel="stylesheet" href="css/all.css">
-		<link rel="stylesheet" href="css/module_style.css">
+		<link rel="stylesheet" href="../assets/css/all.css">
+		<link rel="stylesheet" href="../assets/css/module_style.css">
 		<link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.min.css">
 		<script type="text/javascript" src="../assets/js/jquery-1.11.1.js"></script>
 		<script type="text/javascript" src="../assets/bootstrap/js/bootstrap.js"></script>
@@ -122,8 +122,8 @@
 						<td><?php echo $value->post_user_name ?></td>
 						<td><?php echo $value->post_time ?></td>
 						<td>
-							<a href="###" onclick="look(<?php echo $value->id  ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
-							<a href="###" onclick="update(<?php echo $value->id  ?>)">取消禁止</a>
+							<a href="###" onclick="look(<?php echo $value->Id;  ?>)" data-toggle="modal" data-target="#myModal">查看详情</a>
+							<a href="###" onclick="update(<?php echo $value->Id;  ?>)">取消禁止</a>
 						</td>
 					</tr>
 					<?php } ?>
@@ -199,13 +199,13 @@
 		function update(id){
 			if(confirm("允许该帖子发布？")){
 				$.ajax({
-					url:"update.php",
+					url:"manage_module_core.php",
 					type:"POST",
 					data:{id:id,op:5},
 					success: function(msg){
 						if(msg==1){
 							alert("操作成功！");
-							location.href="postBan.php";
+							location.href="manage_postBan.php";
 						}else{
 							alert("数据库出错！")
 						}
@@ -216,23 +216,24 @@
 		//帖子查看详情
 		function look(id){
 			$.ajax({
-				url:"update.php",
+				url:"manage_module_core.php",
 				type:"POST",
 				data:{id:id,op:3},
 				success: function(msg){
 					var data=JSON.parse(msg);
-					$("#post_title").html(data->post_title);
-					if(data->post_module_type ==1){
+					$("#post_title").html(data['post_title']);
+					if(data['post_module_type'] ==1){
 						$("#post_module_type").text('_专题区_');
-					}else if(data->post_module_type ==2){
+					}else if(data['post_module_type'] ==2){
 						$("#post_module_type").text('_学习区_');
-					}else if(data->post_module_type ==3){
+					}else if(data['post_module_type']==3){
 						$("#post_module_type").text('_服务区_');
 					}
-					$("#post_module_name").text("所属模块："+data->post_module_name );
-					$("#post_comment").html(data->post_comment );
+					$("#post_module_name").text("所属模块："+data['post_module_name']);
+					$("#post_comment").html(data['post_comment']);
 					
 					$("#id").val(id);
+					$("#remove").attr("onclick","update("+id+")");//动态设置模态框按钮的形参值
 
 				}
 			})

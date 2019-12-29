@@ -14,29 +14,29 @@
 			if($result==1){
 				header('location:manage_module.php');
 			}else{
-				exit('数据库出错！1');
+				exit('数据库出错！');
 			}
 		}else if($op==2){ //帖子禁止
 			$id=$_GET['id'];
 			$reason=$_GET['reason'];
-			$sql="update post set audit_result=10,audit=1,reason='$reason' where post_module_id ='$id'";
+			$sql="update post set audit_result=10,audit=1,reason='$reason' where Id ='$id'";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
 				header('location:manage_oldPost.php'); //浏览器跳转
 			}else{
-				exit('数据库出错！2');
+				exit('数据库出错！');
 			}
 		}else if($op==20){ //帖子 审核不通过
 			$id=$_GET['id'];
 			$reason=$_GET['reason'];
-			$sql="update post set audit_result=0,audit=1,reason='$reason' where post_module_id ='$id'";
+			$sql="update post set audit_result=0,audit=1,reason='$reason' where Id ='$id'";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
 				header("location:manage_newPost.php"); //浏览器跳转
 			}else{
-				exit('数据库出错！3');
+				exit('数据库出错！');
 			}
 		}else if($op==3){ //删除用户
 			$id=$_GET['u_id'];
@@ -45,7 +45,7 @@
 			if($result==1){
 				header('location:manage_user.php');
 			}else{
-				exit('数据库出错！4');
+				exit('数据库出错！');
 			}
 		}else if($op==4){
 			$id=$_GET['u_id'];
@@ -58,7 +58,7 @@
 				if($result==1){
 					header('location:manage_user.php');
 				}else{
-					exit('数据库出错！5');
+					exit('数据库出错！');
 				}
 			}else{
 				$sql="update user set is_enable=0, is_enable=2 where u_id=$id";
@@ -66,12 +66,12 @@
 				if($result==1){
 					header('location:manage_user.php');
 				}else{
-					exit('数据库出错！6');
+					exit('数据库出错！');
 				}
 			}
 		}else if($op==5){
 			$notice=$_GET['notice'];
-			$sql="update `notice` set `notice`='$notice'";
+			$sql="update notice set notice='$notice'";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				header('location:manage_notice.php');
@@ -80,43 +80,14 @@
 			}
 		}else if($op==6){
 			$id=$_GET['id'];
-			$sql="update `post` set `audit_result`=1,`audit`=1 where post_module_id ='$id'";
+			$sql="update post set audit_result=1,audit=1 where Id ='$id'";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				header('location:manage_newPost.php');
 			}else{
-				exit('数据库出错！7');
-			}
-		}else if($op==7){//管理员下架商品
-			$id=$_GET['id'];
-			$sql="update `commodity` set `audit`=10 where `id`='$id'";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 0;
-			}
-		}else if($op==8){//商品审核通过
-			$id=$_GET['id'];
-			$sql="update `commodity` set `audit`=1 where `id`='$id'";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 0;
+				exit('数据库出错！');
 			}
 		}
-		else if($op==9){//商品审核不通过
-			$id=$_GET['id'];
-			$sql="update `commodity` set `audit`=0 where `id`='$id'";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 0;
-			}
-		}
-		
 	}
 	if(!empty($_POST)){
 		$op=$_POST['op'];
@@ -153,26 +124,12 @@
 			}
 		}else if($op==3){ //帖子查看详情
 			$id=$_POST['id'];
-			$sql="select * from `post` where id=$id";
-			$data=$mysql->exec($sql);
-			echo json_encode($data);
-		}else if($op==4){ //商品查看详情
-			$id=$_POST['id'];
-			$sql="select * from `commodity` where id=$id";
+			$sql="select * from post where Id=$id";
 			$data=$mysql->exec($sql);
 			echo json_encode($data);
 		}else if($op==5){ // 帖子取消禁止
 			$id=$_POST['id'];
-			$sql="update `post` set `audit_result`=1 , `reason`=0 where post_module_id=$id";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 2;
-			}
-		}else if($op==6){ // 商品取消禁止
-			$id=$_POST['id'];
-			$sql="update `commodity` set `audit`=1 where id=$id";
+			$sql="update post set audit_result=1 , reason=0 where Id=$id";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				echo 1;
@@ -181,17 +138,7 @@
 			}
 		}else if($op==7){ // 帖子撤销举报
 			$id=$_POST['id'];
-			$sql="update `post` set `inform`=0 where  post_module_id =$id";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				echo 1;
-			}else{
-				echo 2;
-			}
-		}else if($op==8){ // 商品撤销举报
-			$id=$_POST['id'];
-			$create_time=$_POST['create_time'];
-			$sql="update `commodity` set `inform`=0,`create_time`=create_time where id=$id";
+			$sql="update post set inform=0 where  Id =$id";
 			$result=$mysql->exec($sql);
 			if($result==1){
 				echo 1;
