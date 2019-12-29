@@ -48,9 +48,7 @@
 		<ul class="nav_item">
 			<li onclick="location.href='index.html'" style="background:#2d004e;">首页</li>
 			<li onclick="location.href='innerCircleModule/innerCore.php'">贴吧模式</li>
-			<!--<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>-->
 			<li onclick="location.href='innerCircleModule/Forum_post.php'">发帖</li>
-			<!--<li onclick="location.href='Forum_store.php'">商城</li>-->
 			<li onclick="location.href='innerCircleModule/Forum_user.php'">个人中心</li>
 			<li class="nav_itemEnd">快捷导航</li>
 		</ul>
@@ -77,9 +75,9 @@
 		<div class="banner_bottom">
 			<div class="banner_left">
 				<ul class="text">
-					<li>1111</li>
-					<li>2222</li>
-					<li>3333</li>
+					<li></li>
+					<li></li>
+					<li></li>
 				</ul>
 				<ul class="ul1">
 					<li id="li"><img src="assets/img/banner_1.png" alt=""></li>
@@ -141,7 +139,7 @@
 				{{each comments}}
 				
 				{{if $value.module_type==1}}
-						<div class="classify" onclick="window.location.href='Forum_module.php?module_type=1&module_id='+{{$value.id}}">
+						<div class="classify" data-toggle="modal" data-target=".bs-example-modal-sm"  aria-hidden="true">
 						<div class="img" >
 							<img src="assets/img/module_1.png" alt="图片">
 						</div>
@@ -167,7 +165,7 @@
 				<script type="text/html" id="content_body_2">
 				{{each comments}}
 				{{if $value.module_type==2}}
-					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=2&module_id='+{{$value.id}}">
+					<div class="classify" data-toggle="modal" data-target=".bs-example-modal-sm"  aria-hidden="true">
 						<div class="img" >
 							<img src="assets/img/module_2.png" alt="图片">
 						</div>
@@ -192,7 +190,7 @@
 				<script type="text/html" id="content_body_3">
 				{{each comments}}
 				{{if $value.module_type==3}}
-					<div class="classify" onclick="window.location.href='Forum_module.php?module_type=3&module_id='+{{$value.id}}">
+					<div class="classify" data-toggle="modal" data-target=".bs-example-modal-sm"  aria-hidden="true">
 						<div class="img" >
 							<img src="assets/img/module_3.png" alt="图片">
 						</div>
@@ -214,7 +212,7 @@
 			在线人数 - 统计 4 人在线
 		</div>
 		<div class="foot_text">
-			<p>&copy;2019 林桂鑫 林泽文 .AllRightsReserved</p>
+			<p>&copy;2019 李升典 童观锐 .AllRightsReserved</p>
 		</div>
 	</div>
 	
@@ -222,8 +220,9 @@
 	<!-- Small modal 1-->
 	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 	  <div class="modal-dialog modal-sm" role="document">
-		<div class="modal-content" style="padding-top:10px">
-			尚未开放...
+		<div class="modal-content" style="font-size:18px;height:100px;text-align: center;padding-top: 41px;">
+			尚未开放...预计下版本开放
+
 		</div>
 	  </div>
 	
@@ -236,8 +235,6 @@
 			/* 轮播图定时器 */
 			goMove=window.setInterval("move()",3000);
 			//banner 新闻 new&hot 切换 
-
-
 
 
 			$("#newPost").click(function(){
@@ -356,16 +353,7 @@
 						$(".banner_left .ul1 li img").eq(i).attr("src","/Forum"+data[i]['post_cover_image'].substr(2));
 						$(".banner_left .text li").eq(i).text(data[i]['post_title']);
 					}
-					//点击轮播图跳转页面
-					$(".banner_left .ul1 li img").eq(0).click(function(){
-						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[0]['id'];
-					});
-					$(".banner_left .ul1 li img").eq(1).click(function(){
-						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[1]['id'];
-					});
-					$(".banner_left .ul1 li img").eq(2).click(function(){
-						location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+data[2]['id'];
-					});
+			
 			    },
 			    error:function(e){
 			    	alert("前后端交互失败！"); 
@@ -377,6 +365,7 @@
 			//text轮播
 			for(var i=0;i<=2;i++){
 				if($(".text li").eq(i).attr("style")=='display:block'){
+					
 					break;
 				}
 			}
@@ -410,6 +399,7 @@
 				}
 			}
 		}
+
 		//轮播图的点击事件
 		function go(a){
 			//text
@@ -427,11 +417,7 @@
 			/* 防止刚点击时计时器马上又跳转 */
 			window.clearInterval(goMove);//关闭定时器
 			goMove=window.setInterval("move()",3000);//开启计时器
-		}
-		function look(id){
-			location.href="http://www.guixin.com/Forum/innerCircleModule/Forum_post_item.php?id="+id;
-		}
-	
+		}	
 	</script>
 </body>
 </html>

@@ -31,21 +31,10 @@
 					$post_sum=$data['post_sum'];
 					$post_sum+=1;
 					$addPostSumResult=$mysql->exec("update post set post_sum=$post_sum where Id=$post_id");
-					
-					//表user user_sum()+1
-					/*$data=$mysql->exec("select * from user where u_id=$u_id");
-					$u_post_sum=$data['u_post_sum'];
-					$u_post_sum+=1;
-					$addUserPostSumResult=$mysql->exec("update user set u_post_sum=$u_post_sum where u_id=$to_user_id");
-					if($result1==1 && $result2==1){
-						$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-						header("Location: $referer"); //浏览器跳转
-					}*/
 					if($addPostSumResult==1){
 						$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
 						header("Location: $referer"); //浏览器跳转
 					}
-
 				}else{
 					$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
 					header("Location: $referer"); //浏览器跳转

@@ -270,7 +270,7 @@
 			$.ajax({
 				url:"manage_module_core.php",
 				type:"POST",
-				data:{op:'7',id:id},
+				data:{op:'5',id:id},
 				success: function(msg){
 					if(msg==1){
 						alert("撤销成功！");

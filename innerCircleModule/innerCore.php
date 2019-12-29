@@ -211,7 +211,7 @@
 			在线人数 - 统计 4 人在线
 		</div>
 		<div class="foot_text">
-			<p>&copy;2019 林桂鑫 林泽文 .AllRightsReserved</p>
+			<p>&copy;2019 李升典 童观锐 .AllRightsReserved</p>
 		</div>
 	</div>
 	
@@ -256,8 +256,6 @@
 			})
 		});
 		function select(e){
-				/* $(".post_nav li").removeClass("pitchOn");
-				$(".post_nav li").eq(e).addClass("pitchOn"); */
 				if(e==0) location.href="innerCore.php";
 				else location.href="innerCore.php?type="+e;
 			}

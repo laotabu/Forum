@@ -32,7 +32,7 @@
 			}else{
 				echo 2;
 			}
-		}else if($op==4){/* 帖子举报 */
+		}else if($op==2){/* 帖子举报 */
 			$id=$_GET['id'];
 			$sql="update post set inform=$u_id where Id=$id";
 			$result=$mysql->exec($sql);

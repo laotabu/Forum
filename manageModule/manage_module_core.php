@@ -27,17 +27,6 @@
 			}else{
 				exit('数据库出错！');
 			}
-		}else if($op==20){ //帖子 审核不通过
-			$id=$_GET['id'];
-			$reason=$_GET['reason'];
-			$sql="update post set audit_result=0,audit=1,reason='$reason' where Id ='$id'";
-			$result=$mysql->exec($sql);
-			if($result==1){
-				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-				header("location:manage_newPost.php"); //浏览器跳转
-			}else{
-				exit('数据库出错！');
-			}
 		}else if($op==3){ //删除用户
 			$id=$_GET['u_id'];
 			$sql="delete from user where u_id=$id";
@@ -87,6 +76,17 @@
 			}else{
 				exit('数据库出错！');
 			}
+		}else if($op==7){ //帖子 审核不通过
+			$id=$_GET['id'];
+			$reason=$_GET['reason'];
+			$sql="update post set audit_result=0,audit=1,reason='$reason' where Id ='$id'";
+			$result=$mysql->exec($sql);
+			if($result==1){
+				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
+				header("location:manage_newPost.php"); //浏览器跳转
+			}else{
+				exit('数据库出错！');
+			}
 		}
 	}
 	if(!empty($_POST)){
@@ -127,7 +127,7 @@
 			$sql="select * from post where Id=$id";
 			$data=$mysql->exec($sql);
 			echo json_encode($data);
-		}else if($op==5){ // 帖子取消禁止
+		}else if($op==4){ // 帖子取消禁止
 			$id=$_POST['id'];
 			$sql="update post set audit_result=1 , reason=0 where Id=$id";
 			$result=$mysql->exec($sql);
@@ -136,7 +136,7 @@
 			}else{
 				echo 2;
 			}
-		}else if($op==7){ // 帖子撤销举报
+		}else if($op==5){ // 帖子撤销举报
 			$id=$_POST['id'];
 			$sql="update post set inform=0 where  Id =$id";
 			$result=$mysql->exec($sql);

@@ -75,9 +75,7 @@
 		<ul class="nav_item">
 			<li onclick="location.href='../index.html'">首页</li>
 			<li onclick="location.href='innerCore.php'" style="background:#2d004e;">贴吧模式</li>
-			<!--<li onclick="location.href='Forum_module.php?module_type=1&module_id=1'">帖子分类</li>-->
 			<li onclick="location.href='Forum_post.php'">发帖</li>
-			<!--<li onclick="location.href='Forum_store.php'">商城</li>-->
 			<li onclick="location.href='Forum_user.php'" >个人中心</li>
 			<li class="nav_itemEnd">快捷导航</li>
 		</ul>
@@ -90,11 +88,6 @@
 			<li><a href="javascript:history.back(-1)">返回</a></li>
 		</ul>
 	</div>
-	<!--<div class="path">
-		<a href="javascript:history.back(-1)">返回</a>
-		<a href="Forum_post.php">发帖</a>
-		<a href="#container">回复</a>
-	</div>-->
 	<!-- content模块 -->
 	<div id="content" class="type_area">
 		<div class="content_body">
@@ -291,7 +284,7 @@
 			在线人数 - 统计 4 人在线
 		</div>
 		<div class="foot_text">
-			<p>&copy;2019 林桂鑫 林泽文 .AllRightsReserved</p>
+			<p>&copy;2019 李升典 童观锐 .AllRightsReserved</p>
 		</div>
 	</div>
 </body>
@@ -373,7 +366,7 @@
 				$.ajax({
 					url:"Forum_user_service.php",
 					type:"GET",
-					data:{op:'4',id:id},
+					data:{op:'2',id:id},
 					success: function(msg){
 						if(msg==1){
 							alert("举报成功，等待管理员处理。");

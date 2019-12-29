@@ -188,7 +188,7 @@
 		      	<!--模态框内容-->
 		      		<form id="form" action="manage_module_core.php">
 						<input type="hidden" id="id" name="id">
-						<input type="hidden" name="op" value='20'>
+						<input type="hidden" name="op" value='6'>
 						禁止原因：<select name="reason">
 							<option value="1">不适当内容</option>
 							<option value="2">存在侵权行为</option>

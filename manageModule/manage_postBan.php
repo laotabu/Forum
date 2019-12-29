@@ -201,7 +201,7 @@
 				$.ajax({
 					url:"manage_module_core.php",
 					type:"POST",
-					data:{id:id,op:5},
+					data:{id:id,op:4},
 					success: function(msg){
 						if(msg==1){
 							alert("操作成功！");
