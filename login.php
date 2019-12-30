@@ -11,14 +11,19 @@
 		$sql="select * from user where u_id='$u_id' and u_passwd='$u_passwd'";
 		$result=$mysql->exec($sql);
 		//查询账号密码是否存在并正确
-		if($result){
+
+		if($result!=null){
 			
 			$is_enable=$result['is_enable'];
 			$last_login_time=$result['last_login_time'];
 			//判断锁定时间
 			if($is_enable==0){ //密码错误锁定
 				//获取最后一次登陆失败的时间的秒数
-				$last_login_time=DatetimeToSeconds("$last_login_time");//引入封装的函数
+				if ($last_login_time==null) {
+					$last_login_time = 0;
+				}else{
+					$last_login_time=DatetimeToSeconds("$last_login_time");//引入封装的函数
+				}
 				//获取现在时间的秒数
 				$now_time=time();
 				$interval=$now_time-$last_login_time;
@@ -44,6 +49,7 @@
 					}
 				}else{
 						$relieve=$last_login_time+60;
+
 						$relieve=date('Y-m-d H:i:s',$relieve);
 						echo "账号锁定至".$relieve;
 				}
@@ -74,22 +80,26 @@
 			}
 		}else{
 			//账号不存在
+
 			$sql="select count(*) as sum from user where u_id='$u_id'";
 			$result=$mysql->exec($sql);
-			if(!$result){
+
+			if($result['sum']==0){
 				echo '用户名不存在，注册用户名或重新输入！';
 				exit;
 			}else{ //密码错误
 				$sql="select * from user where u_id='$u_id'";
-				$result=$mysql->exec($sql);
-				
+				$result=$mysql->exec($sql);	
 				$is_enable=$result['is_enable'];
 				$last_login_time=$result['last_login_time'];
-
 				//判断锁定时间
 				if($is_enable==0){
 					//获取当前时间的秒数
-					$last_login_time=DatetimeToSeconds("$last_login_time");
+					if ($last_login_time==null) {
+						$last_login_time = 0;
+					}else{
+						$last_login_time=DatetimeToSeconds("$last_login_time");//引入封装的函数
+					}
 					$now_time=time();
 					$interval=$now_time-$last_login_time;
 					if($interval>60){
