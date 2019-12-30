@@ -188,6 +188,7 @@
 						processData: false,
 						contentType: false,
 						success: function(msg){
+							
 							if(msg==0){
 								alert("数据库出错！");
 							}else if(msg==1){
