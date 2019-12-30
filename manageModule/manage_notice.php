@@ -7,6 +7,8 @@
 	
 	$sql="select * from `notice`";
 	$data=json_decode($mysql->queryAll($sql));
+	session_start();
+	$u_id=$_SESSION['u_id'];
 ?>
 <html>
 	<header>
@@ -29,8 +31,14 @@
 				  <div class="form-group">
 					  <label for="inputPassword3" class="col-sm-1 control-label">原公告</label>
 				  		<div class="col-sm-11">
-							<textarea class="form-control" rows="2" disabled><?php 
-							 echo $data[0]->notice;
+							<textarea class="form-control" rows="2" disabled>
+								<?php 
+									if ($data!=null) {
+										echo $data[0]->notice;
+									}else {
+										$mysql->exec("insert into notice(u_id,notice) values('$u_id','暂无公告')");
+									}
+							 		
 							//print_r($data);
 							?></textarea>
 						</div>

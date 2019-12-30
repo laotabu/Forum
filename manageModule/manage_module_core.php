@@ -83,7 +83,7 @@
 			$result=$mysql->exec($sql);
 			if($result==1){
 				$referer = $_SERVER['HTTP_REFERER']; //来路信息。就是上一页
-				header("location:manage_newPost.php"); //浏览器跳转
+				header("location:$referer"); //浏览器跳转
 			}else{
 				exit('数据库出错！');
 			}
